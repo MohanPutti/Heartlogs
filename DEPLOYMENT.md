@@ -51,6 +51,7 @@ NEXTAUTH_URL="https://heartlogs.com"
 AUTH_SECRET="<same secret as local>"
 AUTH_GOOGLE_ID=<google-client-id>
 AUTH_GOOGLE_SECRET=<google-client-secret>
+AUTH_TRUST_HOST=true
 NODE_ENV=production
 ```
 

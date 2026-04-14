@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 
 // Edge-compatible auth config (no Prisma imports)
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   pages: {
     signIn: "/login",
     error: "/login",
