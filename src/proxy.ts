@@ -18,10 +18,11 @@ async function proxy(req: NextRequest) {
 
   const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
 
+  const secureCookie = req.nextUrl.protocol === "https:";
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
-    cookieName: "authjs.session-token",
+    cookieName: secureCookie ? "__Secure-authjs.session-token" : "authjs.session-token",
   });
   const isLoggedIn = !!token;
 

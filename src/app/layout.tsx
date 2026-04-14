@@ -20,6 +20,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "HeartLogs — Your Private Diary",
   description: "A beautiful, private digital diary. Only yours.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
