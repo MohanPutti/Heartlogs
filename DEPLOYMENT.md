@@ -112,33 +112,32 @@ pm2 save
 
 ---
 
-## Deploy (Build Local → Push to Server)
+## Deploy (Rsync Source → Build on Server)
 
-> Always build locally — the t3.small has 2GB RAM which can be tight for `next build`.
+> **Always build on the server**, not locally. The `.next` build embeds platform-specific
+> Prisma client binaries — a Mac build will fail on Linux with a module-not-found error.
+> The t3.small handles the build fine with a 1.5GB Node.js memory cap.
 
-### Step 1 — Build locally
-```bash
-npm run build
-```
-
-### Step 2 — Rsync to server
+### Step 1 — Rsync source to server (exclude build artifacts)
 ```bash
 rsync -avz \
   --exclude='node_modules' \
   --exclude='.git' \
   --exclude='.env*' \
+  --exclude='.next' \
   --exclude='prisma/dev.db' \
   -e "ssh -i ~/.ssh/portfolio-parser-key.pem" \
   ./ ubuntu@13.205.92.146:/home/ubuntu/heartlogs/
 ```
 
-### Step 3 — On the server: install deps + migrate + restart
+### Step 2 — On the server: install, generate, migrate, build, restart
 ```bash
 ssh -i ~/.ssh/portfolio-parser-key.pem ubuntu@13.205.92.146 "
   cd /home/ubuntu/heartlogs &&
-  npm install --omit=dev &&
+  npm install &&
   npx prisma generate &&
   DATABASE_URL='mysql://heartlogs:<password>@172.19.0.2:3306/heartlogs' npx prisma migrate deploy &&
+  NODE_OPTIONS='--max-old-space-size=1536' npm run build &&
   pm2 restart heartlogs
 "
 ```
