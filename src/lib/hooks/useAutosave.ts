@@ -13,6 +13,7 @@ interface AutosaveOptions {
   entryDate?: string;
   onCreated?: (id: string) => void;
   delay?: number;
+  enabled?: boolean;
 }
 
 export function useAutosave({
@@ -25,12 +26,14 @@ export function useAutosave({
   entryDate,
   onCreated,
   delay = 1500,
+  enabled = true,
 }: AutosaveOptions) {
   const setSaveStatus = useEditorStore((s) => s.setSaveStatus);
 
   const currentIdRef = useRef<string | null>(entryId);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstRender = useRef(true);
+  const prevEnabledRef = useRef(enabled);
 
   // Always-current values — save() reads from here, never from closure
   const latestRef = useRef({ title, content, mood, tags, wordCount, entryDate, onCreated });
@@ -80,14 +83,22 @@ export function useAutosave({
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      prevEnabledRef.current = enabled;
       return;
     }
+    // Skip the trigger that fires when `enabled` first becomes true (entry just loaded)
+    if (enabled && !prevEnabledRef.current) {
+      prevEnabledRef.current = enabled;
+      return;
+    }
+    prevEnabledRef.current = enabled;
+    if (!enabled) return;
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(save, delay);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [title, content, mood, tags, wordCount, entryDate, save, delay]);
+  }, [title, content, mood, tags, wordCount, entryDate, save, delay, enabled]);
 
   return { save };
 }

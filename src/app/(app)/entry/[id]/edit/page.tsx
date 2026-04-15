@@ -44,7 +44,7 @@ export default function EditEntryPage({ params }: { params: Promise<{ id: string
 
   const handleCreated = useCallback((_id: string) => {}, []);
 
-  const { save } = useAutosave({ entryId: id, title, content, mood, tags, wordCount, entryDate, onCreated: handleCreated });
+  const { save } = useAutosave({ entryId: id, title, content, mood, tags, wordCount, entryDate, onCreated: handleCreated, enabled: !loading });
 
   if (loading) {
     return (
