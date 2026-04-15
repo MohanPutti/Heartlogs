@@ -18,12 +18,38 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "HeartLogs — Your Private Diary",
-  description: "A beautiful, private digital diary. Only yours.",
+  title: {
+    default: "HeartLogs — Your Private Digital Diary",
+    template: "%s · HeartLogs",
+  },
+  description:
+    "HeartLogs is a beautiful, private online diary. Write daily journal entries, track your mood, add tags, and reflect on your life — completely private, always yours.",
+  metadataBase: new URL("https://heartlogs.com"),
+  alternates: { canonical: "/" },
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
     apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "HeartLogs — Your Private Digital Diary",
+    description:
+      "A beautiful, private online diary. Write journal entries, track your mood, and reflect on your life. Free to use.",
+    url: "https://heartlogs.com",
+    siteName: "HeartLogs",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HeartLogs — Your Private Digital Diary",
+    description:
+      "A beautiful, private online diary. Write journal entries, track your mood, and reflect on your life.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
 };
 
