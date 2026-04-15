@@ -35,11 +35,11 @@ export function useAutosave({
   const isFirstRender = useRef(true);
   const prevEnabledRef = useRef(enabled);
 
-  // Always-current values — save() reads from here, never from closure
+  // Always-current values — save() reads from here, never from closure.
+  // Updated synchronously during render (not in useEffect) so it is never
+  // stale when a timer callback or child effect fires.
   const latestRef = useRef({ title, content, mood, tags, wordCount, entryDate, onCreated });
-  useEffect(() => {
-    latestRef.current = { title, content, mood, tags, wordCount, entryDate, onCreated };
-  });
+  latestRef.current = { title, content, mood, tags, wordCount, entryDate, onCreated };
 
   useEffect(() => {
     currentIdRef.current = entryId;

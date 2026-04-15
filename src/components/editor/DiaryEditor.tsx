@@ -57,7 +57,7 @@ export function DiaryEditor({
     if (editor && initialContent) {
       try {
         const parsed = JSON.parse(initialContent);
-        editor.commands.setContent(parsed);
+        editor.commands.setContent(parsed, { emitUpdate: false });
       } catch {
         // invalid JSON — ignore
       }
