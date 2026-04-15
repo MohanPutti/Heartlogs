@@ -75,7 +75,10 @@ export function TagsInput() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => setFocused(true)}
-          onBlur={() => setTimeout(() => setFocused(false), 150)}
+          onBlur={() => {
+            if (input.trim()) commitTag(input);
+            setTimeout(() => setFocused(false), 150);
+          }}
           placeholder="Add tag…"
           className="text-xs bg-transparent outline-none text-[var(--text-secondary)] placeholder:text-[var(--text-muted)] w-20 focus:w-32 transition-all"
         />
