@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, Calendar, Search, Settings } from "lucide-react";
+import { useEditorStore } from "@/lib/stores/editorStore";
 
 const NAV = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
@@ -13,6 +13,13 @@ const NAV = [
 
 export function MobileNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const requestSave = useEditorStore((s) => s.requestSave);
+
+  const handleNav = async (href: string) => {
+    if (requestSave) await requestSave();
+    router.push(href);
+  };
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-[var(--border)] z-40 pb-safe"
@@ -21,9 +28,9 @@ export function MobileNav() {
         {NAV.map(({ href, icon: Icon, label }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
-            <Link
+            <button
               key={href}
-              href={href}
+              onClick={() => handleNav(href)}
               className={`flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-colors min-w-0 ${
                 active
                   ? "text-[var(--accent)]"
@@ -32,7 +39,7 @@ export function MobileNav() {
             >
               <Icon size={20} strokeWidth={active ? 2.5 : 1.75} />
               <span className="text-[10px] font-medium leading-none">{label}</span>
-            </Link>
+            </button>
           );
         })}
       </div>

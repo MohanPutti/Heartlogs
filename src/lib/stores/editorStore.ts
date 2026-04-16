@@ -7,6 +7,8 @@ interface EditorStore {
   title: string;
   isDirty: boolean;
   saveStatus: "idle" | "saving" | "saved" | "error";
+  // Registered by useAutosave while an editor is mounted; null otherwise.
+  requestSave: (() => Promise<void>) | null;
 
   setMood: (mood: Mood | null) => void;
   addTag: (tag: string) => void;
@@ -15,6 +17,7 @@ interface EditorStore {
   setTitle: (title: string) => void;
   setDirty: (dirty: boolean) => void;
   setSaveStatus: (status: "idle" | "saving" | "saved" | "error") => void;
+  setRequestSave: (fn: (() => Promise<void>) | null) => void;
   reset: () => void;
 }
 
@@ -24,6 +27,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
   title: "",
   isDirty: false,
   saveStatus: "idle",
+  requestSave: null,
 
   setMood: (mood) => set({ mood, isDirty: true }),
   addTag: (tag) =>
@@ -37,6 +41,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
   setTitle: (title) => set({ title, isDirty: true }),
   setDirty: (isDirty) => set({ isDirty }),
   setSaveStatus: (saveStatus) => set({ saveStatus }),
+  setRequestSave: (requestSave) => set({ requestSave }),
   reset: () =>
-    set({ mood: null, tags: [], title: "", isDirty: false, saveStatus: "idle" }),
+    set({ mood: null, tags: [], title: "", isDirty: false, saveStatus: "idle", requestSave: null }),
 }));

@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HeartPulse, LayoutDashboard, Calendar, Search, Settings, PenLine, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
 import Image from "next/image";
+import { useEditorStore } from "@/lib/stores/editorStore";
 
 const NAV = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -16,7 +17,14 @@ const NAV = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session } = useSession();
+  const requestSave = useEditorStore((s) => s.requestSave);
+
+  const handleNav = async (href: string) => {
+    if (requestSave) await requestSave();
+    router.push(href);
+  };
 
   return (
     <aside className="hidden md:flex flex-col fixed left-0 top-0 h-full w-60 border-r border-[var(--border)] z-40"
@@ -46,10 +54,10 @@ export function Sidebar() {
         {NAV.map(({ href, icon: Icon, label }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
-            <Link
+            <button
               key={href}
-              href={href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+              onClick={() => handleNav(href)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
                 active
                   ? "font-medium text-[var(--accent)] bg-[var(--bg-elevated)]"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]"
@@ -57,7 +65,7 @@ export function Sidebar() {
             >
               <Icon size={16} />
               {label}
-            </Link>
+            </button>
           );
         })}
       </nav>

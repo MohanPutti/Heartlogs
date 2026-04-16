@@ -27,6 +27,7 @@ export function useAutosave({
   enabled = true,
 }: AutosaveOptions) {
   const setSaveStatus = useEditorStore((s) => s.setSaveStatus);
+  const setRequestSave = useEditorStore((s) => s.setRequestSave);
 
   const currentIdRef = useRef<string | null>(entryId);
 
@@ -71,6 +72,12 @@ export function useAutosave({
       setSaveStatus("error");
     }
   }, [setSaveStatus]);
+
+  // Expose save globally so sidebar/nav can call it before soft-navigating away.
+  useEffect(() => {
+    setRequestSave(save);
+    return () => setRequestSave(null);
+  }, [save, setRequestSave]);
 
   // Save when the user switches tabs or minimises the window.
   useEffect(() => {
