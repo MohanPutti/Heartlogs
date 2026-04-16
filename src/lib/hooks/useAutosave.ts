@@ -12,7 +12,6 @@ interface AutosaveOptions {
   wordCount: number;
   entryDate?: string;
   onCreated?: (id: string) => void;
-  delay?: number;
   enabled?: boolean;
 }
 
@@ -25,30 +24,24 @@ export function useAutosave({
   wordCount,
   entryDate,
   onCreated,
-  delay = 1500,
   enabled = true,
 }: AutosaveOptions) {
   const setSaveStatus = useEditorStore((s) => s.setSaveStatus);
 
   const currentIdRef = useRef<string | null>(entryId);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isFirstRender = useRef(true);
-  const prevEnabledRef = useRef(enabled);
 
   // Always-current values — save() reads from here, never from closure.
-  // Updated synchronously during render (not in useEffect) so it is never
-  // stale when a timer callback or child effect fires.
-  const latestRef = useRef({ title, content, mood, tags, wordCount, entryDate, onCreated });
-  latestRef.current = { title, content, mood, tags, wordCount, entryDate, onCreated };
+  const latestRef = useRef({ title, content, mood, tags, wordCount, entryDate, onCreated, enabled });
+  latestRef.current = { title, content, mood, tags, wordCount, entryDate, onCreated, enabled };
 
   useEffect(() => {
     currentIdRef.current = entryId;
   }, [entryId]);
 
-  // Stable save function — deps are only setSaveStatus (which is stable from Zustand)
   const save = useCallback(async () => {
-    const { title, content, mood, tags, wordCount, entryDate, onCreated } = latestRef.current;
+    const { title, content, mood, tags, wordCount, entryDate, onCreated, enabled } = latestRef.current;
 
+    if (!enabled) return;
     // Don't create a blank entry
     if (!currentIdRef.current && !wordCount && !title.trim()) return;
 
@@ -79,26 +72,21 @@ export function useAutosave({
     }
   }, [setSaveStatus]);
 
-  // Trigger debounced autosave whenever anything changes
+  // Save when the user switches tabs or minimises the window.
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      prevEnabledRef.current = enabled;
-      return;
-    }
-    // Skip the trigger that fires when `enabled` first becomes true (entry just loaded)
-    if (enabled && !prevEnabledRef.current) {
-      prevEnabledRef.current = enabled;
-      return;
-    }
-    prevEnabledRef.current = enabled;
-    if (!enabled) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(save, delay);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+    const handler = () => {
+      if (document.visibilityState === "hidden") save();
     };
-  }, [title, content, mood, tags, wordCount, entryDate, save, delay, enabled]);
+    document.addEventListener("visibilitychange", handler);
+    return () => document.removeEventListener("visibilitychange", handler);
+  }, [save]);
+
+  // Best-effort save on page close / refresh.
+  useEffect(() => {
+    const handler = () => save();
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [save]);
 
   return { save };
 }

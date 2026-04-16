@@ -52,7 +52,10 @@ export function DiaryEditor({
     immediatelyRender: false,
   });
 
-  // Sync initialContent if it changes (e.g. loading existing entry)
+  // Set initial content once when the editor instance becomes ready.
+  // initialContent is intentionally excluded from deps — subsequent changes
+  // come from the editor's own onChange callbacks and must NOT loop back into
+  // setContent (doing so resets the cursor on every keystroke).
   useEffect(() => {
     if (editor && initialContent) {
       try {
@@ -62,7 +65,8 @@ export function DiaryEditor({
         // invalid JSON — ignore
       }
     }
-  }, [editor, initialContent]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor]);
 
   const getWordCount = useCallback(() => {
     return editor?.storage.characterCount?.words() ?? 0;
@@ -73,8 +77,7 @@ export function DiaryEditor({
       {!readOnly && editor && (
         <EditorToolbar editor={editor} />
       )}
-      <div className={`flex-1 overflow-y-auto ${readOnly ? "" : "cursor-text"}`}
-        onClick={() => !readOnly && editor?.commands.focus()}>
+      <div className={`flex-1 overflow-y-auto ${readOnly ? "" : "cursor-text"}`}>
         <EditorContent
           editor={editor}
           className={`tiptap-content min-h-full px-6 md:px-10 py-6 outline-none ${readOnly ? "" : "focus:outline-none"}`}
