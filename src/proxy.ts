@@ -16,7 +16,7 @@ async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+  const isPublic = PUBLIC_PATHS.some((p) => p === "/" ? pathname === "/" : pathname.startsWith(p));
 
   const secureCookie = req.nextUrl.protocol === "https:";
   const token = await getToken({
