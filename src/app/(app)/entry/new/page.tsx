@@ -9,7 +9,6 @@ import { useEditorStore } from "@/lib/stores/editorStore";
 import { useAutosave } from "@/lib/hooks/useAutosave";
 import { format } from "date-fns";
 import { ArrowLeft, Save, Loader2, Check } from "lucide-react";
-import Link from "next/link";
 import { DatePicker } from "@/components/ui/DatePicker";
 
 function NewEntryContent() {
@@ -42,9 +41,12 @@ function NewEntryContent() {
         className="flex items-center gap-3 px-4 md:px-6 py-3 border-b shrink-0"
         style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
       >
-        <Link href="/dashboard" className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+        <button
+          onClick={async () => { await save(); router.push("/dashboard"); }}
+          className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+        >
           <ArrowLeft size={18} />
-        </Link>
+        </button>
         <div className="flex-1 min-w-0">
           <input
             value={title}

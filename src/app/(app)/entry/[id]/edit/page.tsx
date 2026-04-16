@@ -11,7 +11,6 @@ import { useAutosave } from "@/lib/hooks/useAutosave";
 import { format } from "date-fns";
 import { ArrowLeft, Loader2, Save, Check } from "lucide-react";
 import { DatePicker } from "@/components/ui/DatePicker";
-import Link from "next/link";
 import { EntryType, Mood } from "@/types";
 
 export default function EditEntryPage({ params }: { params: Promise<{ id: string }> }) {
@@ -60,9 +59,12 @@ export default function EditEntryPage({ params }: { params: Promise<{ id: string
         className="flex items-center gap-3 px-4 md:px-6 py-3 border-b shrink-0"
         style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
       >
-        <Link href={`/entry/${id}`} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+        <button
+          onClick={async () => { await save(); router.push(`/entry/${id}`); }}
+          className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+        >
           <ArrowLeft size={18} />
-        </Link>
+        </button>
         <div className="flex-1 min-w-0">
           <input
             value={title}
