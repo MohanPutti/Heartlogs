@@ -157,6 +157,14 @@ export default async function LandingPage() {
           <HeartPulse size={22} className="text-[var(--accent)]" />
           <span className="font-display text-xl font-bold">HeartLogs</span>
         </div>
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/features" className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+            Features
+          </Link>
+          <Link href="/blog" className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+            Blog
+          </Link>
+        </div>
         <div className="flex items-center gap-3">
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             Sign in
