@@ -172,7 +172,7 @@ export default async function BlogPostPage({ params }: Props) {
               .filter((l) => !l.startsWith("|") && !l.startsWith("- **") && !l.startsWith("- ") && !l.startsWith("## ") && !l.startsWith("### ") && !l.startsWith("---"))
               .join(" ");
             if (!formatted.trim()) return null;
-            return <p key={i}>{formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>;
+            return <p key={i} dangerouslySetInnerHTML={{ __html: formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />;
           })}
         </div>
 
