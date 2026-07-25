@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const PUBLIC_PATHS = ["/", "/login", "/register", "/features", "/blog", "/privacy", "/sitemap.xml", "/robots.txt"];
+// Paths that are accessible to everyone but redirect to dashboard when logged in
+const AUTH_PAGES = ["/", "/login", "/register"];
+
+// Public content pages — always accessible, even when logged in
+const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/sitemap.xml", "/robots.txt"];
 
 async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -16,8 +20,6 @@ async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const isPublic = PUBLIC_PATHS.some((p) => p === "/" ? pathname === "/" : pathname.startsWith(p));
-
   const secureCookie = req.nextUrl.protocol === "https:";
   const token = await getToken({
     req,
@@ -26,11 +28,22 @@ async function proxy(req: NextRequest) {
   });
   const isLoggedIn = !!token;
 
-  if (isPublic && isLoggedIn) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  // Auth pages (landing, login, register) — serve to everyone,
+  // but redirect to dashboard if already logged in
+  if (AUTH_PAGES.some((p) => p === "/" ? pathname === "/" : pathname.startsWith(p))) {
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+    return NextResponse.next();
   }
 
-  if (!isPublic && !isLoggedIn) {
+  // Allow public content pages regardless of auth state
+  if (PUBLIC_CONTENT.some((p) => pathname.startsWith(p))) {
+    return NextResponse.next();
+  }
+
+  // Protected pages require login
+  if (!isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

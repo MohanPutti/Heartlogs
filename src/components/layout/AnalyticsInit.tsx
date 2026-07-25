@@ -1,21 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { initAmplitude, trackPageView, setUserId } from "@/lib/analytics";
+import { initAmplitude, trackPageView, setUserId, identifyUser } from "@/lib/analytics";
 
 export function AnalyticsInit() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const prevUserId = useRef<string | undefined>(undefined);
 
   useEffect(() => {
-    initAmplitude();
+    // Init Amplitude once — pass userId if session is already loaded
+    initAmplitude(session?.user?.id ?? undefined);
+    prevUserId.current = session?.user?.id;
   }, []);
 
+  // Track page views
   useEffect(() => {
     if (!pathname) return;
-    // Map URL paths to human-readable page names
     const pageMap: Record<string, string> = {
       "/": "Landing",
       "/login": "Login",
@@ -33,8 +36,18 @@ export function AnalyticsInit() {
     trackPageView(pageName);
   }, [pathname]);
 
+  // Track user ID changes (session loads after render) and sync user properties
   useEffect(() => {
-    setUserId(session?.user?.id ?? undefined);
+    const user = session?.user;
+    const uid = user?.id;
+    if (uid && uid !== prevUserId.current) {
+      setUserId(uid);
+      identifyUser({
+        name: user.name ?? "",
+        email: user.email ?? "",
+      });
+      prevUserId.current = uid;
+    }
   }, [session?.user?.id]);
 
   return null;
