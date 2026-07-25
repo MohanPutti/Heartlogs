@@ -129,9 +129,14 @@ export default async function BlogPostPage({ params }: Props) {
               const items = para.split("\n").filter((l) => l.startsWith("- "));
               return (
                 <ul key={i} className="list-disc pl-5 space-y-1">
-                  {items.map((item, j) => (
-                    <li key={j}>{item.replace(/^- \*\*(.*?)\*\*/, "$1 — ")}{item.match(/^\*\*(.*?)\*\*/) ? "" : item.replace(/^- /, "")}</li>
-                  ))}
+                  {items.map((item, j) => {
+                    // Convert **bold** to <strong> tags in list items
+                    const html = item
+                      .replace(/^- \*\*(.*?)\*\*/, "<strong>$1</strong> — ")
+                      .replace(/^- /, "")
+                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                    return <li key={j} dangerouslySetInnerHTML={{ __html: html }} />;
+                  })}
                 </ul>
               );
             }
