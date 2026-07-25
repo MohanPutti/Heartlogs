@@ -140,6 +140,19 @@ export default async function BlogPostPage({ params }: Props) {
                 </ul>
               );
             }
+            if (para.match(/^\d+\.\s/)) {
+              const items = para.split("\n").filter((l) => l.match(/^\d+\.\s/));
+              return (
+                <ol key={i} className="list-decimal pl-5 space-y-1.5">
+                  {items.map((item, j) => {
+                    const html = item
+                      .replace(/^\d+\.\s/, "")
+                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                    return <li key={j} dangerouslySetInnerHTML={{ __html: html }} />;
+                  })}
+                </ol>
+              );
+            }
             if (para.startsWith("| ")) {
               const lines = para.split("\n").filter((l) => l.startsWith("|"));
               const headers = lines[0].split("|").filter(Boolean).map((h) => h.trim());
@@ -174,7 +187,7 @@ export default async function BlogPostPage({ params }: Props) {
             // Regular paragraph
             const formatted = para
               .split("\n")
-              .filter((l) => !l.startsWith("|") && !l.startsWith("- **") && !l.startsWith("- ") && !l.startsWith("## ") && !l.startsWith("### ") && !l.startsWith("---"))
+              .filter((l) => !l.startsWith("|") && !l.startsWith("- **") && !l.startsWith("- ") && !l.startsWith("## ") && !l.startsWith("### ") && !l.startsWith("---") && !l.match(/^\d+\.\s/))
               .join(" ");
             if (!formatted.trim()) return null;
             return <p key={i} dangerouslySetInnerHTML={{ __html: formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />;
