@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { HeartPulse, ArrowLeft, Calendar as CalendarIcon, Tag } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -65,6 +66,11 @@ export default async function BlogPostPage({ params }: Props) {
       </nav>
 
       <article className="max-w-2xl mx-auto px-6 md:px-12 py-12 w-full">
+        <BreadcrumbJsonLd items={[
+          { name: "HeartLogs", url: "https://heartlogs.com" },
+          { name: "Blog", url: "https://heartlogs.com/blog" },
+          { name: post.title, url: `https://heartlogs.com/blog/${post.slug}` },
+        ]} />
         {/* Back link */}
         <Link
           href="/blog"
@@ -187,6 +193,34 @@ export default async function BlogPostPage({ params }: Props) {
             style={{ background: "var(--accent)", color: "#fff" }}
           >
             Create your free diary
+          </Link>
+        </div>
+
+        {/* Related posts */}
+        <div className="mt-10">
+          <p className="text-xs font-semibold mb-3" style={{ color: "var(--text-muted)" }}>Read more</p>
+          <div className="space-y-2">
+            {blogPosts
+              .filter((p) => p.slug !== post.slug)
+              .slice(0, 3)
+              .map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/blog/${related.slug}`}
+                  className="block rounded-xl border p-3 text-sm transition-colors hover:bg-[var(--bg-elevated)]"
+                  style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}
+                >
+                  <span className="font-medium" style={{ color: "var(--text-primary)" }}>{related.title}</span>
+                  <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{related.description}</p>
+                </Link>
+              ))}
+          </div>
+        </div>
+
+        {/* Feature links */}
+        <div className="mt-6 text-center">
+          <Link href="/features" className="text-xs underline underline-offset-2" style={{ color: "var(--text-muted)" }}>
+            See all HeartLogs features →
           </Link>
         </div>
       </article>

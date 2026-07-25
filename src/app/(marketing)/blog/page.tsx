@@ -2,6 +2,7 @@ import Link from "next/link";
 import { HeartPulse, ArrowRight, Calendar as CalendarIcon, Tag } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 
 export const metadata: Metadata = {
   title: "Blog — Free Private Online Diary Tips & Journaling Guides",
@@ -38,6 +39,10 @@ export default function BlogPage() {
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 md:px-12 py-12 w-full">
+        <BreadcrumbJsonLd items={[
+          { name: "HeartLogs", url: "https://heartlogs.com" },
+          { name: "Blog", url: "https://heartlogs.com/blog" },
+        ]} />
         <h1 className="font-display text-3xl md:text-4xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
           HeartLogs Blog
         </h1>
