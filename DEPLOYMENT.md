@@ -6,8 +6,9 @@
 - **Auth**: NextAuth v5 — Credentials + Google OAuth
 - **Process manager**: PM2
 - **Reverse proxy**: Nginx + Let's Encrypt SSL
-- **Server**: AWS EC2 t3.small (`13.205.92.146`), Ubuntu
+- **Server**: AWS EC2 t3.micro (`3.7.207.83`), Ubuntu — AWS account `222034741989`
 - **Domain**: heartlogs.com
+- **SSH key**: `~/.ssh/heartlogs-key.pem`
 
 ---
 
@@ -20,12 +21,12 @@ heartlogs.com / www.heartlogs.com
         │
    PM2 → next start (port 3000)
         │
-   MySQL at 172.19.0.2:3306  ← Docker container: wix-and-wax-mysql
+   MySQL at 172.19.0.3:3306  ← Docker container: wix-and-wax-mysql
    Database: heartlogs
    User: heartlogs
 ```
 
-> **Note**: `172.19.0.2` is the Docker container IP. If the MySQL container is ever recreated, re-run:
+> **Note**: `172.19.0.3` is the Docker container IP. If the MySQL container is ever recreated, re-run:
 > ```bash
 > docker inspect wix-and-wax-mysql --format '{{json .NetworkSettings.Networks}}'
 > ```
@@ -46,7 +47,7 @@ AUTH_GOOGLE_SECRET=<google-client-secret>
 
 ### Production (`/home/ubuntu/heartlogs/.env.production` on EC2)
 ```env
-DATABASE_URL="mysql://heartlogs:<password>@172.19.0.2:3306/heartlogs"
+DATABASE_URL="mysql://heartlogs:<password>@172.19.0.3:3306/heartlogs"
 NEXTAUTH_URL="https://heartlogs.com"
 AUTH_SECRET="<same secret as local>"
 AUTH_GOOGLE_ID=<google-client-id>
@@ -117,7 +118,7 @@ pm2 save
 
 > **Always build on the server**, not locally. The `.next` build embeds platform-specific
 > Prisma client binaries — a Mac build will fail on Linux with a module-not-found error.
-> The t3.small handles the build fine with a 1.5GB Node.js memory cap.
+> The t3.micro handles the build with a 768MB Node.js memory cap (1GB swap enabled on server).
 
 ### Step 1 — Rsync source to server (exclude build artifacts)
 ```bash
@@ -127,19 +128,19 @@ rsync -avz \
   --exclude='.env*' \
   --exclude='.next' \
   --exclude='prisma/dev.db' \
-  -e "ssh -i ~/.ssh/portfolio-parser-key.pem" \
-  ./ ubuntu@13.205.92.146:/home/ubuntu/heartlogs/
+  -e "ssh -i ~/.ssh/heartlogs-key.pem" \
+  ./ ubuntu@3.7.207.83:/home/ubuntu/heartlogs/
 ```
 
 ### Step 2 — On the server: install, generate, migrate, build, restart
 ```bash
-ssh -i ~/.ssh/portfolio-parser-key.pem ubuntu@13.205.92.146 "
+ssh -i ~/.ssh/heartlogs-key.pem ubuntu@3.7.207.83 "
   cd /home/ubuntu/heartlogs &&
   npm install &&
   npx prisma generate &&
-  DATABASE_URL='mysql://heartlogs:<password>@172.19.0.2:3306/heartlogs' npx prisma migrate deploy &&
-  NODE_OPTIONS='--max-old-space-size=1536' npm run build &&
-  pm2 restart heartlogs
+  DATABASE_URL='mysql://heartlogs:<password>@172.19.0.3:3306/heartlogs' npx prisma migrate deploy &&
+  NODE_OPTIONS='--max-old-space-size=768' npm run build &&
+  pm2 restart heartlogs --update-env
 "
 ```
 
@@ -185,7 +186,7 @@ pm2 restart heartlogs
 pm2 status
 
 # Connect to MySQL
-mysql -u heartlogs -p<password> -h 172.19.0.2 -P 3306 heartlogs
+mysql -u heartlogs -p<password> -h 172.19.0.3 -P 3306 heartlogs
 
 # Check Nginx
 sudo nginx -t
@@ -193,4 +194,10 @@ sudo systemctl reload nginx
 
 # Renew SSL (auto, but manual if needed)
 sudo certbot renew
+
+# Check memory / swap
+free -m
+
+# SSH into server
+ssh -i ~/.ssh/heartlogs-key.pem ubuntu@3.7.207.83
 ```
