@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import { useEditorStore } from "@/lib/stores/editorStore";
+import { trackEvent } from "@/lib/analytics";
 
 interface AutosaveOptions {
   entryId: string | null;
@@ -58,6 +59,7 @@ export function useAutosave({
         const data = await res.json();
         currentIdRef.current = data.id;
         onCreated?.(data.id);
+        trackEvent("Entry Created", { wordCount, hasMood: mood ? "yes" : "no", tagCount: tags.length });
       } else {
         const res = await fetch(`/api/entries/${currentIdRef.current}`, {
           method: "PUT",
@@ -65,6 +67,7 @@ export function useAutosave({
           body: JSON.stringify({ title, content, mood, tags, wordCount, entryDate }),
         });
         if (!res.ok) throw new Error("Failed to update");
+        trackEvent("Entry Updated", { wordCount, hasMood: mood ? "yes" : "no" });
       }
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 2000);

@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export function RegisterForm() {
       body: JSON.stringify({ name, email, password }),
     });
     if (res.ok) {
+      trackEvent("Signed Up", { method: "email" });
       router.push("/login?registered=1");
     } else {
       const d = await res.json();
@@ -46,6 +48,7 @@ export function RegisterForm() {
 
   async function handleGoogle() {
     setGoogleLoading(true);
+    trackEvent("Signed Up", { method: "google" });
     await signIn("google", { callbackUrl: "/dashboard" });
   }
 

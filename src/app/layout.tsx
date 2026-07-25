@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
+import { AnalyticsInit } from "@/components/layout/AnalyticsInit";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full" style={{ backgroundColor: "var(--bg)", color: "var(--text-primary)" }}>
         <SessionProvider>
           <ThemeProvider>
+            <AnalyticsInit />
             {children}
             <Toaster
               position="bottom-right"

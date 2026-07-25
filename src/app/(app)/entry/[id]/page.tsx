@@ -10,6 +10,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { trackEvent } from "@/lib/analytics";
 
 export default function EntryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -34,6 +35,7 @@ export default function EntryPage({ params }: { params: Promise<{ id: string }> 
     setDeleting(true);
     const res = await fetch(`/api/entries/${id}`, { method: "DELETE" });
     if (res.ok) {
+      trackEvent("Entry Deleted");
       toast.success("Entry deleted");
       router.push("/dashboard");
     } else {
