@@ -223,4 +223,143 @@ HeartLogs was built from day one as a private digital diary. We don't track you.
 Create your free account and write with complete peace of mind.
     `.trim(),
   },
+  {
+    slug: "journal-prompts-for-when-you-dont-know-what-to-write",
+    title: "50 Journal Prompts for When You Don't Know What to Write",
+    description:
+      "Staring at a blank page? These journal prompts for self-reflection, gratitude, and daily diary writing will get your pen (or keyboard) moving in seconds.",
+    date: "2026-03-01",
+    author: "HeartLogs Team",
+    tags: ["journal prompts", "journaling tips", "self reflection", "daily diary"],
+    content: `
+## Never stare at a blank page again
+
+The hardest part of journaling isn't the writing — it's knowing where to start. A good journal prompt removes that friction. Keep this list handy in your private online diary for the days when your mind feels blank.
+
+### Prompts for self-reflection
+
+1. What's one thing I'm proud of from this week?
+2. What emotion have I been avoiding lately?
+3. What would I tell my younger self right now?
+4. What's a belief I held a year ago that I no longer hold?
+5. When did I last feel truly at peace, and what was I doing?
+6. What's something I need to forgive myself for?
+7. What does my ideal ordinary day look like?
+8. What pattern keeps repeating in my life, and why?
+
+### Prompts for gratitude
+
+9. Who made my day a little better this week?
+10. What's a small comfort I often take for granted?
+11. What's something about my body I'm grateful for today?
+12. What's a mistake that taught me something valuable?
+13. What's a place that makes me feel calm?
+14. What skill am I grateful to have learned?
+
+### Prompts for daily check-ins
+
+15. How did I feel when I woke up this morning?
+16. What's the highlight of my day so far?
+17. What drained my energy today, and what gave me energy?
+18. What's one thing I want to let go of before I sleep?
+19. What's a conversation that stuck with me today?
+20. On a scale of 1-10, how present was I today?
+
+### Prompts for goals and growth
+
+21. What's one small step I can take tomorrow toward a bigger goal?
+22. What's something I've been putting off, and why?
+23. What would I do differently if I weren't afraid of failing?
+24. What does success actually look like to me, not to others?
+25. What habit would make the biggest difference in my life?
+
+### Prompts for relationships
+
+26. Who do I need to reach out to this week?
+27. What's a boundary I need to set or reinforce?
+28. What do I appreciate most about the people closest to me?
+29. What's a conflict I haven't fully processed?
+30. How do I want to show up for the people I love?
+
+### Prompts for creativity and imagination
+
+31. If I could live anywhere for a year, where would it be and why?
+32. What would my perfect Saturday look like?
+33. What's a dream I had that I still remember vividly?
+34. If money weren't a factor, what would I spend my time doing?
+35. What's a story from my life that would make a good book chapter?
+
+### Prompts for tough days
+
+36. What's the one thing keeping me going right now?
+37. What would I say to a friend going through what I'm going through?
+38. What's within my control today, and what isn't?
+39. What's a small win I can point to, even on a hard day?
+40. What do I need right now — rest, connection, or distraction?
+
+### Prompts for looking back
+
+41. What surprised me about this year so far?
+42. What's something I understand now that I didn't a year ago?
+43. What moment this month do I want to remember?
+44. What's a risk I took that paid off, or taught me something?
+45. How have my priorities shifted recently?
+
+### Prompts for looking forward
+
+46. What do I want more of in my life?
+47. What do I want less of in my life?
+48. What's one thing I want to be true about my life in five years?
+49. What's a fear I want to face this year?
+50. If today were a page in a book about my life, what would the chapter title be?
+
+### Make prompts part of your routine
+
+You don't need to answer every prompt every day. Pick one that resonates and write freely for five minutes. Over time, these small entries add up to a rich, honest record of who you are and how you're growing. Open HeartLogs, pick a prompt, and start writing — your future self will love reading it back.
+    `.trim(),
+  },
+  {
+    slug: "journaling-vs-therapy-how-a-diary-supports-mental-wellness",
+    title: "Journaling vs Therapy: How a Diary Supports (But Doesn't Replace) Mental Wellness",
+    description:
+      "Can a daily diary really support your mental health? We look at what journaling can and can't do, and how to use a private online diary alongside therapy or on its own.",
+    date: "2026-03-10",
+    author: "HeartLogs Team",
+    tags: ["journaling and therapy", "mental health", "self care", "digital diary"],
+    content: `
+## Where journaling fits in your mental wellness toolkit
+
+Journaling gets recommended for everything — anxiety, stress, grief, big decisions. It's not therapy, and it doesn't claim to be. But a consistent daily diary is one of the simplest, most accessible tools for supporting your mental wellness, whether you're also seeing a therapist or not.
+
+### What journaling actually does
+
+**It slows down racing thoughts.** Writing forces linear, one-word-at-a-time processing. A spiral of anxious thoughts that feels overwhelming in your head often loses its intensity once it's on the page.
+
+**It creates distance from difficult emotions.** Seeing "I feel anxious about tomorrow's meeting" written down is different from just feeling it. That small shift — from inside the emotion to observing it — is called cognitive defusion, and it's a technique therapists actively teach.
+
+**It builds a record therapists can't see otherwise.** If you do see a therapist, a private diary becomes a goldmine. Instead of trying to remember what happened three weeks ago, you can search your entries and bring specifics to your session.
+
+**It's available at 2am.** Your therapist isn't. A private online diary is always open when a hard feeling shows up outside of business hours.
+
+### What journaling can't do
+
+Journaling is not a substitute for professional care. It can't diagnose you, prescribe treatment, or intervene in a crisis. If you're dealing with persistent depression, trauma, or thoughts of self-harm, please reach out to a licensed professional or a crisis line — a diary is a companion tool, not a replacement for care.
+
+Journaling also isn't automatically therapeutic. Research shows that ruminating in a diary — replaying the same negative thought without any reflection or resolution — can sometimes make things worse. The benefit comes from processing, not just recording.
+
+### How to journal in a way that actually helps
+
+1. **Write the feeling, then write the "why"** — Don't stop at "I'm frustrated." Ask why, and write that too.
+2. **Look for patterns, not just moments** — Use tags and mood tracking to notice trends over weeks, not just single bad days.
+3. **End with a small forward step** — Even one sentence like "tomorrow I'll take a walk before my meeting" turns venting into progress.
+4. **Bring it to therapy if you have one** — Share relevant entries with your therapist. It saves session time and surfaces things you might forget to mention.
+5. **Be consistent, not perfect** — A diary you write in three times a week is more useful than a "perfect" diary you abandon after one entry.
+
+### A tool that meets you where you are
+
+Whether you're in active therapy, between therapists, or just building better self-awareness on your own, a private digital diary like HeartLogs gives you a judgment-free space to think out loud. Mood tracking shows your patterns over time, tags help you organize entries by theme, and everything stays completely private.
+
+Journaling won't replace the professional support you might need — but it's one of the easiest, most consistent habits you can build to support your mental wellness alongside it.
+    `.trim(),
+  },
 ];
