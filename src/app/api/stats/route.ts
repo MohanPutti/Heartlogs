@@ -32,16 +32,16 @@ export async function GET() {
 
   const [allEntries, weekEntries, totalWords] = await Promise.all([
     prisma.entry.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session.user.id, deletedAt: null },
       select: { createdAt: true },
       orderBy: { createdAt: "desc" },
     }),
     prisma.entry.findMany({
-      where: { userId: session.user.id, createdAt: { gte: sevenDaysAgo } },
+      where: { userId: session.user.id, createdAt: { gte: sevenDaysAgo }, deletedAt: null },
       select: { mood: true },
     }),
     prisma.entry.aggregate({
-      where: { userId: session.user.id },
+      where: { userId: session.user.id, deletedAt: null },
       _sum: { wordCount: true },
     }),
   ]);

@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const end = new Date(year, month + 1, 0, 23, 59, 59, 999);
 
   const entries = await prisma.entry.findMany({
-    where: { userId: session.user.id, createdAt: { gte: start, lte: end } },
+    where: { userId: session.user.id, createdAt: { gte: start, lte: end }, deletedAt: null },
     select: { id: true, createdAt: true },
     orderBy: { createdAt: "asc" },
   });

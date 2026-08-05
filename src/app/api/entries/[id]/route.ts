@@ -5,7 +5,7 @@ import { formatEntry } from "@/lib/prisma-types";
 
 async function getOwnedEntry(id: string, userId: string) {
   return prisma.entry.findFirst({
-    where: { id, userId },
+    where: { id, userId, deletedAt: null },
     include: { entryTags: { include: { tag: true } } },
   });
 }
@@ -72,6 +72,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const existing = await getOwnedEntry(id, session.user.id);
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  await prisma.entry.delete({ where: { id } });
+  await prisma.entry.update({ where: { id }, data: { deletedAt: new Date() } });
   return NextResponse.json({ success: true });
 }

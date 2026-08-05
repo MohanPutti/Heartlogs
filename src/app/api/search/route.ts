@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
   const entries = await prisma.entry.findMany({
     where: {
       userId: session.user.id,
+      deletedAt: null,
       OR: [
         { title: { contains: q } },
         { content: { contains: q } },
