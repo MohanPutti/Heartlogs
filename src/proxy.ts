@@ -15,8 +15,7 @@ async function proxy(req: NextRequest) {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/register") ||
     pathname.startsWith("/_next") ||
-    pathname === "/favicon.ico" ||
-    pathname === "/icon.svg"
+    /\.(ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$/.test(pathname)
   ) {
     return NextResponse.next();
   }
@@ -56,6 +55,6 @@ export default proxy;
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
+    "/((?!_next/static|_next/image|.*\\.(?:ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$).*)",
   ],
 };
