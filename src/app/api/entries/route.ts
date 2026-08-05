@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const skip = (page - 1) * limit;
   const dateFilter = searchParams.get("date");
 
-  const where: Record<string, unknown> = { userId: session.user.id };
+  const where: Record<string, unknown> = { userId: session.user.id, deletedAt: null };
   if (dateFilter) {
     const start = new Date(dateFilter);
     start.setHours(0, 0, 0, 0);

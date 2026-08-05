@@ -21,12 +21,12 @@ heartlogs.com / www.heartlogs.com
         │
    PM2 → next start (port 3000)
         │
-   MySQL at 172.19.0.3:3306  ← Docker container: wix-and-wax-mysql
+   MySQL at 172.19.0.2:3306  ← Docker container: wix-and-wax-mysql
    Database: heartlogs
    User: heartlogs
 ```
 
-> **Note**: `172.19.0.3` is the Docker container IP. If the MySQL container is ever recreated, re-run:
+> **Note**: `172.19.0.2` is the Docker container IP. If the MySQL container is ever recreated, re-run:
 > ```bash
 > docker inspect wix-and-wax-mysql --format '{{json .NetworkSettings.Networks}}'
 > ```
@@ -47,7 +47,7 @@ AUTH_GOOGLE_SECRET=<google-client-secret>
 
 ### Production (`/home/ubuntu/heartlogs/.env.production` on EC2)
 ```env
-DATABASE_URL="mysql://heartlogs:<password>@172.19.0.3:3306/heartlogs"
+DATABASE_URL="mysql://heartlogs:<password>@172.19.0.2:3306/heartlogs"
 NEXTAUTH_URL="https://heartlogs.com"
 AUTH_SECRET="<same secret as local>"
 AUTH_GOOGLE_ID=<google-client-id>
@@ -114,35 +114,82 @@ pm2 save
 
 ---
 
-## Deploy (Rsync Source → Build on Server)
+## Deploy (Build Locally → Rsync Build → Install/Migrate/Restart on Server)
 
-> **Always build on the server**, not locally. The `.next` build embeds platform-specific
-> Prisma client binaries — a Mac build will fail on Linux with a module-not-found error.
-> The t3.micro handles the build with a 768MB Node.js memory cap (1GB swap enabled on server).
+> **Build locally, not on the server.** The t3.micro has crashed/hung (sshd became unresponsive
+> during banner exchange) from OOM while running `next build` under load — recovering requires
+> an EC2 reboot (see Troubleshooting below). `prisma/schema.prisma` sets
+> `binaryTargets = ["darwin-arm64", "debian-openssl-3.0.x"]`, so a local (Mac) `prisma generate`
+> already produces a Linux-compatible query engine — a local build is safe to ship as-is.
+> Do not remove `debian-openssl-3.0.x` from `binaryTargets`, or this breaks again.
 
-### Step 1 — Rsync source to server (exclude build artifacts)
+### Step 1 — Build locally
+```bash
+npm run build
+```
+
+### Step 2 — Rsync source + build to server (exclude node_modules/env/dev db)
 ```bash
 rsync -avz \
   --exclude='node_modules' \
   --exclude='.git' \
   --exclude='.env*' \
-  --exclude='.next' \
   --exclude='prisma/dev.db' \
   -e "ssh -i ~/.ssh/heartlogs-key.pem" \
   ./ ubuntu@3.7.207.83:/home/ubuntu/heartlogs/
 ```
+(Note: `.next` is **not** excluded here — the local build output ships as-is.)
 
-### Step 2 — On the server: install, generate, migrate, build, restart
+### Step 3 — On the server: install, generate client, migrate, restart
 ```bash
 ssh -i ~/.ssh/heartlogs-key.pem ubuntu@3.7.207.83 "
   cd /home/ubuntu/heartlogs &&
   npm install &&
   npx prisma generate &&
-  DATABASE_URL='mysql://heartlogs:<password>@172.19.0.3:3306/heartlogs' npx prisma migrate deploy &&
-  NODE_OPTIONS='--max-old-space-size=768' npm run build &&
+  set -a && source .env.production && set +a &&
+  npx prisma migrate deploy &&
   pm2 restart heartlogs --update-env
 "
 ```
+`npx prisma generate` here only regenerates the query engine binaries into
+`node_modules/@prisma/client` for the `debian-openssl-3.0.x` target already produced locally —
+it does not run a Next.js build, so it's cheap on the t3.micro's memory.
+
+### Verify
+```bash
+curl -s -o /dev/null -w 'HTTP %{http_code}\n' https://heartlogs.com
+ssh -i ~/.ssh/heartlogs-key.pem ubuntu@3.7.207.83 "pm2 status"
+```
+
+---
+
+## Troubleshooting: Server Unresponsive / SSH Hangs on Banner Exchange
+
+Symptom: `nc -zv 3.7.207.83 22` succeeds (port open) but `ssh` hangs and times out during
+banner exchange. This means the box is up at the network level but sshd/the OS is
+CPU/memory-thrashed (typically from a `next build` run directly on the server) — a normal
+network/auth issue would fail immediately, not hang.
+
+Fix — reboot via AWS CLI (do **not** delete/recreate the instance):
+```bash
+# Confirm you're on account 222034741989 (profile `myaccount`, not `default`)
+aws sts get-caller-identity --profile myaccount
+
+# Find the instance (Elastic IP is static: 3.7.207.83, so this doesn't change)
+aws ec2 describe-instances --profile myaccount \
+  --filters "Name=ip-address,Values=3.7.207.83" \
+  --query 'Reservations[].Instances[].{ID:InstanceId,State:State.Name}' --output table
+
+# Reboot (instance id: i-0a4f3092b695bfa76)
+aws ec2 reboot-instances --profile myaccount --instance-ids i-0a4f3092b695bfa76
+```
+SSH typically comes back within a few minutes. Poll with:
+```bash
+until ssh -i ~/.ssh/heartlogs-key.pem -o ConnectTimeout=5 -o BatchMode=yes ubuntu@3.7.207.83 "echo up"; do sleep 5; done
+```
+PM2's systemd startup hook auto-restarts the `heartlogs` process and the `wix-and-wax-mysql`
+Docker container auto-restarts on boot, so no manual app/DB restart is needed after reboot —
+just re-run the deploy steps above once SSH is back.
 
 ---
 
@@ -186,7 +233,7 @@ pm2 restart heartlogs
 pm2 status
 
 # Connect to MySQL
-mysql -u heartlogs -p<password> -h 172.19.0.3 -P 3306 heartlogs
+mysql -u heartlogs -p<password> -h 172.19.0.2 -P 3306 heartlogs
 
 # Check Nginx
 sudo nginx -t
