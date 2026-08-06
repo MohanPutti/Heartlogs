@@ -4,6 +4,7 @@ import { HeartPulse, ArrowLeft, Calendar as CalendarIcon, Tag } from "lucide-rea
 import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { BlogEngagement } from "@/components/blog/BlogEngagement";
 
 export const revalidate = 60;
 
@@ -191,6 +192,8 @@ export default async function BlogPostPage({ params }: Props) {
             return <p key={i} dangerouslySetInnerHTML={{ __html: formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />;
           })}
         </div>
+
+        <BlogEngagement slug={post.slug} />
 
         {/* CTA in article */}
         <div

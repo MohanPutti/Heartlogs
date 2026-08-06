@@ -14,6 +14,7 @@ async function proxy(req: NextRequest) {
   if (
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/register") ||
+    pathname.startsWith("/api/blog") ||
     pathname.startsWith("/_next") ||
     /\.(ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$/.test(pathname)
   ) {
