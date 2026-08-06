@@ -207,6 +207,30 @@ npx prisma migrate dev --name <description>
 
 ---
 
+## Publishing a Blog Post (no deploy needed)
+
+Blog posts are stored in the `BlogPost` table (`src/lib/blog.ts` reads them; `/blog` and
+`/blog/[slug]` revalidate every 60s), not compiled into the app. Publishing a new post is a
+direct DB insert on the server — no `next build`, rsync, or `pm2 restart` required.
+
+1. Write the post as JSON (see `scripts/publish-blog-post.ts` for the shape: `slug`, `title`,
+   `description`, `content` (markdown-ish, matches the existing posts' style), `tags`, optional
+   `author`/`date`).
+2. Copy it to the server and run the publish script there (it uses `.env.production`):
+```bash
+scp -i ~/.ssh/heartlogs-key.pem post.json ubuntu@3.7.207.83:/home/ubuntu/heartlogs/post.json
+ssh -i ~/.ssh/heartlogs-key.pem ubuntu@3.7.207.83 "
+  cd /home/ubuntu/heartlogs &&
+  set -a && source .env.production && set +a &&
+  npx tsx scripts/publish-blog-post.ts post.json
+"
+```
+3. It appears at `/blog/<slug>` within ~60s (revalidation window) — no restart needed.
+
+Re-running the script with the same `slug` updates that post in place (upsert).
+
+---
+
 ## Google OAuth Setup
 
 In [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → your OAuth client:

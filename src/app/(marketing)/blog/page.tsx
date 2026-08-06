@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { HeartPulse, ArrowRight, Calendar as CalendarIcon, Tag } from "lucide-react";
-import { blogPosts } from "@/lib/blog-data";
+import { getAllBlogPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Blog — Free Private Online Diary Tips & Journaling Guides",
@@ -15,7 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getAllBlogPosts();
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--bg)", color: "var(--text-primary)" }}>
       {/* Nav */}

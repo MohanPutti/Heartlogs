@@ -96,3 +96,16 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String   @db.Text
+  content     String   @db.LongText
+  author      String   @default("HeartLogs Team")
+  tags        String   @db.Text
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

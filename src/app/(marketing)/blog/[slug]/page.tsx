@@ -1,21 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HeartPulse, ArrowLeft, Calendar as CalendarIcon, Tag } from "lucide-react";
-import { blogPosts } from "@/lib/blog-data";
+import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+
+export const revalidate = 60;
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) return {};
 
   return {
@@ -38,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const [post, allPosts] = await Promise.all([getBlogPostBySlug(slug), getAllBlogPosts()]);
   if (!post) notFound();
 
   const paragraphs = post.content.split("\n\n").filter(Boolean);
@@ -218,7 +216,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="mt-10">
           <p className="text-xs font-semibold mb-3" style={{ color: "var(--text-muted)" }}>Read more</p>
           <div className="space-y-2">
-            {blogPosts
+            {allPosts
               .filter((p) => p.slug !== post.slug)
               .slice(0, 3)
               .map((related) => (
