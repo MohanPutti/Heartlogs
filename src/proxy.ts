@@ -15,6 +15,8 @@ async function proxy(req: NextRequest) {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/register") ||
     pathname.startsWith("/api/blog") ||
+    pathname.startsWith("/admin") || // admin auth is separate, enforced in src/app/admin/(protected)/layout.tsx
+    pathname.startsWith("/api/admin") ||
     pathname.startsWith("/_next") ||
     /\.(ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$/.test(pathname)
   ) {
