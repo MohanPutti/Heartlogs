@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         "/api/auth/session",
         "/api/blog/",
       ],
-      disallow: ["/dashboard", "/entry/", "/calendar", "/search", "/settings", "/api/"],
+      disallow: ["/dashboard", "/entry/", "/calendar", "/search", "/settings", "/admin", "/api/"],
     },
     sitemap: "https://heartlogs.com/sitemap.xml",
   };
