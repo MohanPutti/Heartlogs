@@ -40,11 +40,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const filename = `${randomUUID()}.${extension}`;
-  const dir = path.join(process.cwd(), "public", "uploads", id);
+  const dir = path.join(process.cwd(), "uploads", id);
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, filename), Buffer.from(await file.arrayBuffer()));
 
-  const url = `/uploads/${id}/${filename}`;
+  const url = `/api/uploads/${id}/${filename}`;
   const image = await prisma.entryImage.create({
     data: {
       entryId: id,
