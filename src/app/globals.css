@@ -118,6 +118,13 @@ body {
   margin-bottom: 0;
 }
 
+.tiptap-content img {
+  display: block;
+  margin: 1rem 0;
+  max-height: 32rem;
+  object-fit: contain;
+}
+
 .tiptap-content ul,
 .tiptap-content ol {
   padding-left: 1.5rem;

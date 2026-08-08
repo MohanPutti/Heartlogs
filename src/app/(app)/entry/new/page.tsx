@@ -69,7 +69,10 @@ function NewEntryContent() {
       </div>
 
       <div className="flex-1 overflow-hidden">
-        <DiaryEditor onChange={(json, words) => { setContent(json); setWordCount(words); }} />
+        <DiaryEditor
+          onChange={(json, words) => { setContent(json); setWordCount(words); }}
+          onEnsureEntryId={save}
+        />
       </div>
     </div>
   );

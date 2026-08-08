@@ -37,8 +37,23 @@ model Entry {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   entryTags EntryTag[]
+  images    EntryImage[]
+}
+
+model EntryImage {
+  id        String   @id @default(cuid())
+  entryId   String
+  url       String   @db.Text
+  filename  String
+  mimeType  String
+  size      Int
+  createdAt DateTime @default(now())
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([entryId])
 }
 
 model Tag {
