@@ -164,6 +164,9 @@ export default async function LandingPage() {
           <Link href="/blog" className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
             Blog
           </Link>
+          <Link href="/alternatives" className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+            Alternatives
+          </Link>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
@@ -323,6 +326,7 @@ export default async function LandingPage() {
           <Link href="/" className="hover:underline">Home</Link>
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
+          <Link href="/alternatives" className="hover:underline">Alternatives</Link>
           <Link href="/privacy" className="hover:underline">Privacy</Link>
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary · No ads, no tracking, no limits
