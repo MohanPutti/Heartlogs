@@ -219,6 +219,7 @@ export default function FeaturesPage() {
           <Link href="/" className="hover:underline">Home</Link>
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
+          <Link href="/alternatives" className="hover:underline">Alternatives</Link>
           <Link href="/privacy" className="hover:underline">Privacy</Link>
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary

@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 const AUTH_PAGES = ["/", "/login", "/register"];
 
 // Public content pages — always accessible, even when logged in
-const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/sitemap.xml", "/robots.txt"];
+const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/alternatives", "/vs/", "/sitemap.xml", "/robots.txt"];
 
 async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
