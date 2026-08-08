@@ -90,6 +90,7 @@ export default function EditEntryPage({ params }: { params: Promise<{ id: string
         <DiaryEditor
           initialContent={content}
           onChange={(json, words) => { setContent(json); setWordCount(words); }}
+          onEnsureEntryId={async () => id}
         />
       </div>
     </div>

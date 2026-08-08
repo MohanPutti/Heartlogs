@@ -4,7 +4,10 @@ import { Editor } from "@tiptap/react";
 import {
   Bold, Italic, Strikethrough, List, ListOrdered,
   Quote, Heading2, Heading3, Highlighter, Link2, Minus, ChevronDown,
+  Image as ImageIcon, Loader2,
 } from "lucide-react";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const FONTS = [
   { label: "Sans-serif", value: "Inter, system-ui, sans-serif" },
@@ -40,12 +43,54 @@ function Divider() {
   return <div className="w-px h-5 mx-1" style={{ background: "var(--border)" }} />;
 }
 
-export function EditorToolbar({ editor }: { editor: Editor }) {
+interface EditorToolbarProps {
+  editor: Editor;
+  onEnsureEntryId?: () => Promise<string | null>;
+}
+
+export function EditorToolbar({ editor, onEnsureEntryId }: EditorToolbarProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
   if (!editor) return null;
 
   const activeFont = FONTS.find((f) =>
     editor.isActive("textStyle", { fontFamily: f.value })
   );
+
+  const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    if (!onEnsureEntryId) return;
+
+    setUploading(true);
+    try {
+      const entryId = await onEnsureEntryId();
+      if (!entryId) {
+        toast.error("Write something before adding an image");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch(`/api/entries/${entryId}/images`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "Upload failed" }));
+        throw new Error(error ?? "Upload failed");
+      }
+      const { url } = await res.json();
+      editor.chain().focus().setImage({ src: url, alt: file.name }).run();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to upload image");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <div
@@ -134,6 +179,22 @@ export function EditorToolbar({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         <Minus size={14} />
       </ToolbarButton>
+
+      {onEnsureEntryId && (
+        <>
+          <Divider />
+          <ToolbarButton title="Add image" onClick={() => fileInputRef.current?.click()}>
+            {uploading ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+          </ToolbarButton>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/gif,image/webp"
+            className="hidden"
+            onChange={handleFileSelected}
+          />
+        </>
+      )}
     </div>
   );
 }

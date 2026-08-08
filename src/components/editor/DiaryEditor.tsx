@@ -7,6 +7,7 @@ import CharacterCount from "@tiptap/extension-character-count";
 import Typography from "@tiptap/extension-typography";
 import Link from "@tiptap/extension-link";
 import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
 import { TextStyle, FontFamily } from "@tiptap/extension-text-style";
 import { useEffect, useCallback } from "react";
 import { EditorToolbar } from "./EditorToolbar";
@@ -18,6 +19,7 @@ interface DiaryEditorProps {
   onChange?: (json: string, wordCount: number) => void;
   readOnly?: boolean;
   placeholder?: string;
+  onEnsureEntryId?: () => Promise<string | null>;
 }
 
 export function DiaryEditor({
@@ -25,6 +27,7 @@ export function DiaryEditor({
   onChange,
   readOnly = false,
   placeholder = "What's on your mind tonight…",
+  onEnsureEntryId,
 }: DiaryEditorProps) {
   const setDirty = useEditorStore((s) => s.setDirty);
 
@@ -36,6 +39,7 @@ export function DiaryEditor({
       Typography,
       Highlight.configure({ multicolor: false }),
       Link.configure({ openOnClick: readOnly }),
+      Image.configure({ HTMLAttributes: { class: "rounded-xl max-w-full" } }),
       TextStyle,
       FontFamily,
     ],
@@ -75,7 +79,7 @@ export function DiaryEditor({
   return (
     <div className="flex flex-col h-full">
       {!readOnly && editor && (
-        <EditorToolbar editor={editor} />
+        <EditorToolbar editor={editor} onEnsureEntryId={onEnsureEntryId} />
       )}
       <div className={`flex-1 overflow-y-auto ${readOnly ? "" : "cursor-text"}`}>
         <EditorContent

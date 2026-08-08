@@ -43,9 +43,9 @@ export function useAutosave({
   const save = useCallback(async () => {
     const { title, content, mood, tags, wordCount, entryDate, onCreated, enabled } = latestRef.current;
 
-    if (!enabled) return;
+    if (!enabled) return currentIdRef.current;
     // Don't create a blank entry
-    if (!currentIdRef.current && !wordCount && !title.trim()) return;
+    if (!currentIdRef.current && !wordCount && !title.trim()) return currentIdRef.current;
 
     setSaveStatus("saving");
     try {
@@ -74,6 +74,7 @@ export function useAutosave({
     } catch {
       setSaveStatus("error");
     }
+    return currentIdRef.current;
   }, [setSaveStatus]);
 
   // Expose save globally so sidebar/nav can call it before soft-navigating away.
