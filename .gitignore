@@ -49,4 +49,6 @@ prisma/*.db-wal
 prisma/*.db-shm
 
 # user-uploaded entry images (private diary data — never commit)
-/public/uploads
+# stored outside /public so they're only reachable via the authenticated
+# /api/uploads route, never as a directly-servable static asset
+/uploads

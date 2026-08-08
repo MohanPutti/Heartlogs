@@ -135,14 +135,17 @@ rsync -avz \
   --exclude='.git' \
   --exclude='.env*' \
   --exclude='prisma/dev.db' \
-  --exclude='public/uploads' \
+  --exclude='uploads' \
   -e "ssh -i ~/.ssh/heartlogs-key.pem" \
   ./ ubuntu@3.7.207.83:/home/ubuntu/heartlogs/
 ```
-(Note: `.next` is **not** excluded here — the local build output ships as-is. `public/uploads` **is**
-excluded — it holds user-uploaded diary entry images that live only on the server; rsync has no
-`--delete` flag so it wouldn't wipe them either way, but excluding it avoids ever pushing local test
-uploads over real user data.)
+(Note: `.next` is **not** excluded here — the local build output ships as-is. Top-level `uploads/`
+**is** excluded — it holds user-uploaded diary entry images that live only on the server, served
+exclusively through the authenticated `/api/uploads/:entryId/:filename` route (never as a static
+asset under `public/`, since Next 16's production server snapshots `public/` at startup — files
+written there while the process is running 404 until the next restart). rsync has no `--delete`
+flag so it wouldn't wipe them either way, but excluding it avoids ever pushing local test uploads
+over real user data.)
 
 ### Step 3 — On the server: install, generate client, migrate, restart
 ```bash
