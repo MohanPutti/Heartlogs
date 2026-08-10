@@ -362,4 +362,95 @@ Whether you're in active therapy, between therapists, or just building better se
 Journaling won't replace the professional support you might need — but it's one of the easiest, most consistent habits you can build to support your mental wellness alongside it.
     `.trim(),
   },
+  {
+    slug: "handwriting-vs-typing-which-is-better-for-journaling",
+    title: "Handwriting vs Typing: Which Is Better for Journaling?",
+    description:
+      "Should you keep a paper journal or a digital diary? We break down the real differences between handwriting and typing your daily entries, and when each one wins.",
+    date: "2026-03-20",
+    author: "HeartLogs Team",
+    tags: ["digital diary", "journaling tips", "paper journal", "online diary"],
+    content: `
+## The handwriting vs typing debate
+
+Ask ten journalers whether you should write by hand or type, and you'll get ten different opinions. Both work. The right choice depends on what you're actually trying to get out of your daily diary.
+
+### The case for handwriting
+
+**Slower, more deliberate thinking.** Handwriting forces you to slow down, which some people find helps them process emotions more fully instead of just describing them quickly.
+
+**No screens before bed.** If you journal at night, a paper notebook keeps you away from a backlit screen right before sleep.
+
+**Muscle memory and ritual.** For some people, the physical act of opening a notebook and picking up a pen is part of what makes journaling feel like a ritual rather than a chore.
+
+### The case for typing
+
+**Speed.** Most people type far faster than they write, which means you can get more thoughts down before they slip away — especially useful when your mind is racing.
+
+**Searchable history.** This is the big one. A typed, digital diary lets you search every entry you've ever written in seconds. Trying to remember "when did I write about that conversation with my sister?" is trivial in a searchable diary and nearly impossible in a stack of notebooks.
+
+**Tags and structure.** Typing in an app like HeartLogs means you can add tags, track your mood, and browse by date on a calendar — none of which a paper notebook can do.
+
+**Durability.** Paper burns, gets water damage, gets lost in a move. A cloud-backed digital diary doesn't disappear because you spilled coffee on it.
+
+**Privacy that travels with you.** A digital diary is with you on your phone, wherever you are. A paper journal is only useful if you happen to have it in hand.
+
+### What the research actually says
+
+Studies on expressive writing generally find that the *benefit* comes from the act of writing and reflecting, not the medium. Handwriting and typing both produce measurable improvements in mood and stress when the writing is consistent and reflective. In other words: the format matters far less than showing up regularly.
+
+### So which should you choose?
+
+If you already have a strong handwriting habit and it works for you, don't fix what isn't broken. But if you're starting fresh, or if you've tried paper journals before and abandoned them, a searchable, tag-friendly digital diary removes most of the friction that causes people to quit. You can journal from your phone in the checkout line, during a commute, or in bed — no notebook required.
+
+### Try the best of both worlds
+
+Some people handwrite when they have the time and space, then keep a digital diary for everything else — quick thoughts, mood check-ins, and entries on the go. HeartLogs is built to be that always-available second option: fast to open, easy to search, and private by design.
+
+Whatever tool you pick, the habit matters more than the medium. Start writing today, in whatever format gets you to actually do it.
+    `.trim(),
+  },
+  {
+    slug: "how-often-should-you-journal-finding-your-rhythm",
+    title: "How Often Should You Journal? Finding a Rhythm That Actually Works",
+    description:
+      "Daily, weekly, or only when you need it? Here's how to figure out the right journaling frequency for your life, and why consistency matters more than a daily streak.",
+    date: "2026-04-01",
+    author: "HeartLogs Team",
+    tags: ["journaling habit", "daily diary", "consistency", "self reflection"],
+    content: `
+## There's no single right answer
+
+Every journaling guide seems to assume you should write every single day. For some people, that works beautifully. For others, a daily requirement is exactly what makes them quit after a week. The truth is there's no universal "correct" frequency — there's only the frequency that keeps you coming back.
+
+### Daily journaling: who it's for
+
+Daily journaling works well if you want to build strong self-awareness quickly, or if you're using your diary to track mood, sleep, or habits where daily data actually matters. HeartLogs' streak counter and 7-day mood summary are built for this rhythm — the dashboard rewards showing up regularly, even with a two-sentence entry.
+
+The risk with daily journaling is that it can start to feel like homework. If you find yourself writing "nothing to report" just to keep a streak alive, that's a sign the frequency is working against you, not for you.
+
+### A few times a week: the sustainable middle
+
+Many long-term journalers settle here without planning to. Writing three or four times a week — after a meaningful day, a hard conversation, or a moment worth remembering — captures most of the value of daily journaling without the pressure. It also tends to produce more substantial entries, since you're writing when you actually have something to say.
+
+### Weekly reflection: the low-effort option
+
+A single weekly entry, written on a Sunday evening or Friday afternoon, can still deliver real benefits: a chance to notice patterns, process the week, and set intentions. This rhythm works especially well for people who find daily journaling unsustainable but still want the reflective habit.
+
+### As-needed: journaling as a release valve
+
+Some people only journal when they're stressed, anxious, or processing something big. That's a completely valid use of a private diary — it doesn't need to be a daily habit to be useful. A digital diary that's always one tap away means it's ready the moment you need it, with zero setup cost.
+
+### How to find your rhythm
+
+1. **Start with your actual life, not an ideal one.** If you know daily entries won't survive a busy week, don't set that expectation for yourself.
+2. **Notice what you skip and why.** If you consistently skip Mondays, that's useful information, not a failure.
+3. **Let your mood tracker guide you.** If you notice your mood data gets patchy, that's a sign to loosen your frequency goal, not tighten it.
+4. **Judge success by return rate, not streak length.** A diary you come back to after a two-week break is more successful than one you abandon forever after breaking a streak.
+
+### Consistency beats intensity
+
+The people who get the most out of journaling over the years aren't the ones who wrote every single day without fail — they're the ones who kept coming back, in whatever rhythm fit their life. Pick a frequency you can sustain for a year, not just a week, and let your private diary meet you there.
+    `.trim(),
+  },
 ];
