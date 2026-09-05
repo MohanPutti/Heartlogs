@@ -135,14 +135,17 @@ rsync -avz \
   --exclude='.git' \
   --exclude='.env*' \
   --exclude='prisma/dev.db' \
-  --exclude='uploads' \
+  --exclude='/uploads' \
   -e "ssh -i ~/.ssh/heartlogs-key.pem" \
   ./ ubuntu@3.7.207.83:/home/ubuntu/heartlogs/
 ```
 (Note: `.next` is **not** excluded here — the local build output ships as-is. Top-level `uploads/`
-**is** excluded — it holds user-uploaded diary entry images that live only on the server, served
-exclusively through the authenticated `/api/uploads/:entryId/:filename` route (never as a static
-asset under `public/`, since Next 16's production server snapshots `public/` at startup — files
+**is** excluded — the `/` prefix matters: `--exclude='uploads'` (no leading slash) matches a
+directory named `uploads` at ANY depth, which silently drops `src/app/api/uploads/` and the built
+`.next/server/app/api/uploads/` route output too, deploying a broken build with no error. It holds
+user-uploaded diary entry images that live only on the server, served exclusively through the
+authenticated `/api/uploads/:entryId/:filename` route (never as a static asset under `public/`,
+since Next 16's production server snapshots `public/` at startup — files
 written there while the process is running 404 until the next restart). rsync has no `--delete`
 flag so it wouldn't wipe them either way, but excluding it avoids ever pushing local test uploads
 over real user data.)

@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 const AUTH_PAGES = ["/", "/login", "/register"];
 
 // Public content pages — always accessible, even when logged in
-const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/alternatives", "/vs/", "/sitemap.xml", "/robots.txt"];
+const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/alternatives", "/vs/", "/donate", "/sitemap.xml", "/robots.txt"];
 
 async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -15,6 +15,8 @@ async function proxy(req: NextRequest) {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/register") ||
     pathname.startsWith("/api/blog") ||
+    pathname.startsWith("/api/donate") ||
+    pathname.startsWith("/api/webhooks") ||
     pathname.startsWith("/admin") || // admin auth is separate, enforced in src/app/admin/(protected)/layout.tsx
     pathname.startsWith("/api/admin") ||
     pathname.startsWith("/_next") ||

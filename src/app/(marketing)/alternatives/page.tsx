@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeartPulse, Check, X } from "lucide-react";
 import type { Metadata } from "next";
+import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
   title: "Best Free Online Diary Alternatives — HeartLogs vs Day One, Journey & More",
@@ -119,6 +120,7 @@ export default function AlternativesPage() {
           <span className="font-display text-xl font-bold">HeartLogs</span>
         </Link>
         <div className="flex items-center gap-3">
+          <DonateNavLink />
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             Sign in
           </Link>
@@ -276,6 +278,7 @@ export default function AlternativesPage() {
           <Link href="/" className="hover:underline">Home</Link>
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
+          <DonateFooterLink />
           <Link href="/privacy" className="hover:underline">Privacy</Link>
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary

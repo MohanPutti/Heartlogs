@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Calendar, Settings, BookOpen } from "lucide-react";
+import { LayoutDashboard, Calendar, Settings, BookOpen, Heart } from "lucide-react";
 import { useEditorStore } from "@/lib/stores/editorStore";
 
 const NAV = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
   { href: "/calendar", icon: Calendar, label: "Calendar" },
   { href: "/blog", icon: BookOpen, label: "Blog" },
+  { href: "/donate", icon: Heart, label: "Donate" },
   { href: "/settings", icon: Settings, label: "Settings" },
 ];
 

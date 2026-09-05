@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { HeartPulse, BookOpen, Lock, Sparkles, Calendar, Tag, TrendingUp, Shield } from "lucide-react";
 import type { Metadata } from "next";
+import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
   title: "HeartLogs — Free Private Online Diary & Digital Journal | Secure & Safe",
@@ -169,6 +170,7 @@ export default async function LandingPage() {
           </Link>
         </div>
         <div className="flex items-center gap-3">
+          <DonateNavLink />
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             Sign in
           </Link>
@@ -327,6 +329,7 @@ export default async function LandingPage() {
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
           <Link href="/alternatives" className="hover:underline">Alternatives</Link>
+          <DonateFooterLink />
           <Link href="/privacy" className="hover:underline">Privacy</Link>
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary · No ads, no tracking, no limits
