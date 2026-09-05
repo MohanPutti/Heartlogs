@@ -154,3 +154,20 @@ model BlogComment {
   post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Donation {
+  id                     String   @id @default(cuid())
+  type                   String // "one_time" | "recurring"
+  status                 String   @default("created") // "created" | "paid" | "active" | "cancelled" | "failed"
+  amount                 Int // in the smallest currency unit (paise)
+  currency               String   @default("INR")
+  name                   String?
+  email                  String?
+  razorpayOrderId        String?  @unique
+  razorpaySubscriptionId String?  @unique
+  razorpayPaymentId      String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([status])
+}

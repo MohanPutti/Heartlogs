@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { HeartPulse, LayoutDashboard, Calendar, Search, Settings, PenLine, LogOut, BookOpen } from "lucide-react";
+import { HeartPulse, LayoutDashboard, Calendar, Search, Settings, PenLine, LogOut, BookOpen, Heart } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
 import Image from "next/image";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/calendar", icon: Calendar, label: "Calendar" },
   { href: "/search", icon: Search, label: "Search" },
   { href: "/blog", icon: BookOpen, label: "Blog" },
+  { href: "/donate", icon: Heart, label: "Donate" },
   { href: "/settings", icon: Settings, label: "Settings" },
 ];
 

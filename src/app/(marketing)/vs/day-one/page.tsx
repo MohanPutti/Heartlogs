@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeartPulse, Check, X } from "lucide-react";
 import type { Metadata } from "next";
+import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
   title: "HeartLogs vs Day One — Free Online Diary Comparison",
@@ -75,6 +76,7 @@ export default function DayOneComparisonPage() {
           <span className="font-display text-xl font-bold">HeartLogs</span>
         </Link>
         <div className="flex items-center gap-3">
+          <DonateNavLink />
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             Sign in
           </Link>
@@ -189,6 +191,7 @@ export default function DayOneComparisonPage() {
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/alternatives" className="hover:underline">Alternatives</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
+          <DonateFooterLink />
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary
       </footer>

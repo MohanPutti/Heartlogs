@@ -3,6 +3,7 @@ import { HeartPulse, ArrowRight, Calendar as CalendarIcon, Tag } from "lucide-re
 import { getAllBlogPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const revalidate = 60;
 
@@ -28,6 +29,7 @@ export default async function BlogPage() {
           <span className="font-display text-xl font-bold">HeartLogs</span>
         </Link>
         <div className="flex items-center gap-3">
+          <DonateNavLink />
           <Link href="/login" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             Sign in
           </Link>
@@ -101,6 +103,7 @@ export default async function BlogPage() {
           <Link href="/" className="hover:underline">Home</Link>
           <Link href="/features" className="hover:underline">Features</Link>
           <Link href="/blog" className="hover:underline">Blog</Link>
+          <DonateFooterLink />
           <Link href="/privacy" className="hover:underline">Privacy</Link>
         </div>
         © {new Date().getFullYear()} HeartLogs · Free private online diary
