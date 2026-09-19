@@ -4,14 +4,14 @@ import type { Metadata } from "next";
 import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
-  title: "HeartLogs vs Journey — Free Online Diary Comparison",
+  title: "Journey Cloud vs Premium (& a Free Alternative) — HeartLogs",
   description:
-    "Comparing HeartLogs and Journey journal app? See a side-by-side breakdown of price, platforms, privacy, and features to find the best digital diary for you.",
+    "Confused about Journey Cloud vs Premium pricing tiers? Here's what each plan actually includes, plus a free alternative with no subscription and no tracking scripts.",
   alternates: { canonical: "/vs/journey" },
   openGraph: {
-    title: "HeartLogs vs Journey — Free Online Diary Comparison",
+    title: "Journey Cloud vs Premium — Pricing Compared, Plus a Free Alternative",
     description:
-      "A side-by-side comparison of HeartLogs and Journey: price, platforms, privacy, and features.",
+      "What's the real difference between Journey Cloud and Journey Premium? A breakdown of both plans, and a free, subscription-free alternative.",
     url: "https://heartlogs.com/vs/journey",
     siteName: "HeartLogs",
     type: "website",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HeartLogs vs Journey",
-    description: "See how HeartLogs compares to Journey as a free online diary alternative.",
+    title: "Journey Cloud vs Premium — Compared",
+    description: "What Journey Cloud and Premium each include, and a free alternative with no subscription.",
   },
 };
 
@@ -38,6 +38,10 @@ const rows = [
 ];
 
 const faqs = [
+  {
+    q: "What's the difference between Journey Cloud and Journey Premium?",
+    a: "Journey Cloud is Journey's sync/backup tier that keeps your entries backed up and available across devices. Journey Premium sits on top of that and unlocks the full feature set — location and weather tagging, PDF export, custom themes, and multi-device editing without limits. In short: Cloud gets your data synced, Premium removes the feature caps. Both are paid subscriptions on top of the free app.",
+  },
   {
     q: "Is HeartLogs a good free alternative to Journey?",
     a: "Yes. HeartLogs covers the core journaling features people use Journey for — mood tracking, tags, search, calendar view — as a free web app, with no premium tier needed to access your diary from multiple devices.",
@@ -99,6 +103,31 @@ export default function JourneyComparisonPage() {
           Both are cross-platform digital diary apps, but they take different approaches. Here&apos;s an honest
           comparison to help you pick the right private journal.
         </p>
+      </section>
+
+      {/* Journey Cloud vs Premium breakdown */}
+      <section className="px-6 md:px-12 pb-16 max-w-3xl mx-auto w-full">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
+          Journey Cloud vs Premium: what each plan actually gets you
+        </h2>
+        <div className="space-y-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+          <p>
+            <strong style={{ color: "var(--text-primary)" }}>Journey Cloud</strong> is the sync layer — it backs up
+            your entries and keeps them available if you switch phones or reinstall the app. Without it, your diary
+            lives only on one device.
+          </p>
+          <p>
+            <strong style={{ color: "var(--text-primary)" }}>Journey Premium</strong> is the feature-unlock tier on
+            top of Cloud: location and weather auto-tagging, PDF/Word export, custom themes and covers, and
+            multi-device editing without the free plan&apos;s entry limits.
+          </p>
+          <p>
+            If you just want your diary backed up and synced — no export tools, no location tagging, no
+            subscription — that&apos;s exactly what HeartLogs gives you for free: every entry is available from any
+            browser you sign into, with mood tracking, tags, calendar view, and full-text search included, no Cloud
+            or Premium tier required.
+          </p>
+        </div>
       </section>
 
       {/* Comparison table */}

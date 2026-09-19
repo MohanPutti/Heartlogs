@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Safe & Private Digital Diary",
+  title: "Zero Tracking Pixels, No Ad Scripts — HeartLogs Privacy Policy",
   description:
-    "HeartLogs privacy policy. We never share, sell, or analyze your diary entries. No tracking, no ads, no third-party scripts. Your private online diary is truly private.",
+    "No tracking pixels, no ad networks, no third-party analytics reading your entries. See exactly what HeartLogs does (and doesn't) collect — read the full privacy policy.",
 };
 
 export default function PrivacyPage() {
