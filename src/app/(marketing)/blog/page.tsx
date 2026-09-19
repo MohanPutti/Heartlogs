@@ -8,13 +8,13 @@ import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Blog — Free Private Online Diary Tips & Journaling Guides",
+  title: "No-Tracking Journaling Guides & Diary Privacy Tips — HeartLogs Blog",
   description:
-    "Read the HeartLogs blog for journaling tips, diary privacy guides, mood tracking advice, and digital journal recommendations. Learn how to build a meaningful daily writing habit.",
+    "Practical guides on private journaling: how to keep a diary app off ad networks, build a writing habit that sticks, and use mood tracking without handing your data to anyone.",
   openGraph: {
-    title: "HeartLogs Blog — Free Online Diary Tips & Guides",
+    title: "No-Tracking Journaling Guides — HeartLogs Blog",
     description:
-      "Journaling tips, mood tracking guides, privacy advice, and everything you need to make the most of your private digital diary.",
+      "Practical, privacy-first journaling guides — no ad networks, no data selling, just writing advice and mood tracking tips.",
   },
 };
 

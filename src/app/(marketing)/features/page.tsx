@@ -4,13 +4,13 @@ import type { Metadata } from "next";
 import { DonateNavLink, DonateFooterLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
-  title: "Features — Free Private Online Diary & Digital Journal",
+  title: "Minimalist Browser Journal — No Ads, No Tracking | HeartLogs Features",
   description:
-    "Explore all HeartLogs features: private diary, mood tracking, calendar view, tags, full-text search, daily streaks, and beautiful rich-text editing. The best free online diary for daily journaling.",
+    "Mood tracking, calendar view, tags, full-text search, and a distraction-free editor — all in a browser journal with no ads, no tracking scripts, and no account limits.",
   openGraph: {
-    title: "HeartLogs Features — Free Private Digital Diary",
+    title: "Minimalist Browser Journal — No Ads, No Tracking",
     description:
-      "A feature-rich, free private online diary. Mood tracking, calendar navigation, tags, search, streaks, and a beautiful editor — all completely free and private.",
+      "A feature-rich, free private online diary with mood tracking, calendar navigation, tags, and search — no ads, no tracking, no subscription.",
   },
 };
 

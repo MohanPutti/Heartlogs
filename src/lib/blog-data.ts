@@ -453,4 +453,47 @@ Some people only journal when they're stressed, anxious, or processing something
 The people who get the most out of journaling over the years aren't the ones who wrote every single day without fail — they're the ones who kept coming back, in whatever rhythm fit their life. Pick a frequency you can sustain for a year, not just a week, and let your private diary meet you there.
     `.trim(),
   },
+  {
+    slug: "free-online-diary-no-tracking-pixels",
+    title: "A Free Online Diary Without Tracking Pixels, Ad SDKs, or Analytics Scripts",
+    description:
+      "Most 'free' diary apps pay for their servers with your data. Here's how to check what's actually running on a journaling app, and why HeartLogs was built with zero tracking pixels or ad scripts.",
+    date: "2026-09-01",
+    author: "HeartLogs Team",
+    tags: ["privacy", "no tracking", "free diary app", "digital diary"],
+    content: `
+## Why "free" journaling apps usually aren't tracking-free
+
+If a diary app costs nothing and has no premium tier, something else is usually paying the bills — and that's often you, through analytics SDKs, ad networks, or "anonymized" data sharing baked into the app. Journaling apps are an especially sensitive place for this, since the whole point is writing down things you wouldn't say anywhere else.
+
+The catch is that most people never check. Tracking pixels and third-party SDKs don't show up in the app itself — they run silently in the background.
+
+### How to actually check what's tracking you
+
+You don't need to be technical to check this yourself:
+
+- **Read the privacy policy — specifically the "third parties" section.** If it lists ad networks, analytics vendors, or "partners we share data with," that's your answer.
+- **Open your browser's dev tools (Network tab) while using the app.** Requests firing off to domains like \`google-analytics.com\`, \`facebook.net\`, or unfamiliar third-party domains are trackers.
+- **Check if the app has an ad-free "premium" tier.** If removing ads is a paid upgrade, the free tier is ad-supported by definition — and ad-supported almost always means tracked.
+- **Look for a cookie/consent banner listing dozens of "partners."** A diary app that needs to disclose 40+ advertising partners is not a private space.
+
+### What "no tracking" actually means at HeartLogs
+
+We built HeartLogs specifically because most "private" diary apps we tried weren't. Concretely:
+
+- **No ad network scripts** — nothing from Google Ads, Meta, or any ad SDK runs on the site
+- **No third-party analytics reading entry content** — we don't run behavioral analytics tools that fingerprint what you write
+- **No tracking pixels** — no invisible 1x1 images phoning home on every page load
+- **No data sharing or selling** — your entries are yours; read the full [privacy policy](/privacy) for the specifics
+- **Free forever, no premium unlock** — there's no ad-supported tier to begin with, so there's nothing to remove by paying
+
+### Why this matters more for a diary than any other app
+
+You'll tolerate tracking on a weather app. A diary is different — it's where people write about relationships, mental health, grief, and things they're still figuring out. If that content is anywhere near an ad-targeting pipeline, even "anonymized," it's a risk that doesn't need to exist.
+
+### Try it without tracking scripts running
+
+You can verify everything above yourself — open dev tools, check the network tab, read the privacy policy. Then [create a free account](/register) and start writing somewhere that isn't quietly measuring you back.
+    `.trim(),
+  },
 ];

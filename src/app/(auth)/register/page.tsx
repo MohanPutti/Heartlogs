@@ -1,5 +1,12 @@
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { HeartPulse } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Your Free Account — No Ads, No Tracking | HeartLogs",
+  description:
+    "Sign up free in seconds. No credit card, no ads, no tracking scripts — just a private diary with mood tracking, tags, and calendar view, free forever.",
+};
 
 export default function RegisterPage() {
   return (
