@@ -54,7 +54,16 @@ AUTH_GOOGLE_ID=<google-client-id>
 AUTH_GOOGLE_SECRET=<google-client-secret>
 AUTH_TRUST_HOST=true
 NODE_ENV=production
+NODE_OPTIONS="--max-old-space-size=768 --dns-result-order=ipv4first"
 ```
+
+> **Why `--dns-result-order=ipv4first`**: this EC2 instance has no working IPv6 egress (only a
+> link-local address, no route), but DNS still returns AAAA records for Google's OAuth endpoints.
+> Without this flag, Node's `fetch()` sometimes picks the unreachable IPv6 address and hangs until
+> `ETIMEDOUT`, intermittently breaking Google sign-in. Because deploy Step 3 always does
+> `source .env.production && ... && pm2 restart heartlogs --update-env`, this flag **must** live in
+> `.env.production` (not just be exported ad hoc in an SSH session) or it gets silently dropped on
+> the next deploy.
 
 ---
 
