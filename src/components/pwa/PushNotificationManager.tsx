@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Bell, BellOff, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { subscribeUser, unsubscribeUser } from "@/app/actions/push";
+import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -15,21 +16,8 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 export function PushNotificationManager() {
-  const [isSupported, setIsSupported] = useState(false);
-  const [subscription, setSubscription] = useState<PushSubscription | null>(null);
+  const { isSupported, subscription, setSubscription } = usePushSubscription();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      setIsSupported(true);
-      navigator.serviceWorker
-        .register("/sw.js", { scope: "/", updateViaCache: "none" })
-        .then(async (registration) => {
-          const sub = await registration.pushManager.getSubscription();
-          setSubscription(sub);
-        });
-    }
-  }, []);
 
   async function subscribeToPush() {
     setLoading(true);
