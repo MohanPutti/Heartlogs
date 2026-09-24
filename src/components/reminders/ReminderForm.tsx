@@ -23,7 +23,7 @@ interface Props {
 
 export function ReminderForm({ reminder }: Props) {
   const router = useRouter();
-  const { isSupported, subscription, loading: subLoading } = usePushSubscription();
+  const { isSupported, subscription, loading: subLoading, needsInstallOnIOS } = usePushSubscription();
   const [title, setTitle] = useState(reminder?.title ?? "");
   const [note, setNote] = useState(reminder?.note ?? "");
   const [date, setDate] = useState(reminder?.date ?? format(new Date(), "yyyy-MM-dd"));
@@ -32,7 +32,7 @@ export function ReminderForm({ reminder }: Props) {
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const gated = !subLoading && isSupported && !subscription;
+  const gated = !subLoading && (needsInstallOnIOS || (isSupported && !subscription));
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -82,11 +82,23 @@ export function ReminderForm({ reminder }: Props) {
           className="rounded-xl border px-3.5 py-2.5 text-xs text-[var(--text-muted)]"
           style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
         >
-          Enable notifications in{" "}
-          <a href="/settings" className="underline font-medium">
-            Settings
-          </a>{" "}
-          first, or this reminder won&apos;t be able to notify you.
+          {needsInstallOnIOS ? (
+            <>
+              On iPhone/iPad, install HeartLogs as an app and enable notifications in{" "}
+              <a href="/settings" className="underline font-medium">
+                Settings
+              </a>{" "}
+              first, or this reminder won&apos;t be able to notify you.
+            </>
+          ) : (
+            <>
+              Enable notifications in{" "}
+              <a href="/settings" className="underline font-medium">
+                Settings
+              </a>{" "}
+              first, or this reminder won&apos;t be able to notify you.
+            </>
+          )}
         </div>
       )}
 

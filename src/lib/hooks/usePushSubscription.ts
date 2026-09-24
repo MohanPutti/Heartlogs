@@ -6,9 +6,20 @@ export function usePushSubscription() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   const [loading, setLoading] = useState(true);
+  // iOS only exposes the Push API to installed (standalone) home-screen apps —
+  // in a regular Safari tab, "PushManager" in window is false even though it
+  // will work fine once installed. Surface that distinction to the UI instead
+  // of lumping it in with "not supported in this browser."
+  const [needsInstallOnIOS, setNeedsInstallOnIOS] = useState(false);
 
   useEffect(() => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as unknown as { MSStream?: unknown }).MSStream;
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+
     if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+      setNeedsInstallOnIOS(isIOS && !isStandalone);
       setLoading(false);
       return;
     }
@@ -22,5 +33,5 @@ export function usePushSubscription() {
       });
   }, []);
 
-  return { isSupported, subscription, setSubscription, loading };
+  return { isSupported, subscription, setSubscription, loading, needsInstallOnIOS };
 }

@@ -16,7 +16,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 export function PushNotificationManager() {
-  const { isSupported, subscription, setSubscription } = usePushSubscription();
+  const { isSupported, subscription, setSubscription, needsInstallOnIOS } = usePushSubscription();
   const [loading, setLoading] = useState(false);
 
   async function subscribeToPush() {
@@ -51,6 +51,16 @@ export function PushNotificationManager() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (needsInstallOnIOS) {
+    return (
+      <p className="text-xs text-[var(--text-muted)]">
+        On iPhone/iPad, notifications only work once HeartLogs is installed as an app. See{" "}
+        <span className="font-medium text-[var(--text-primary)]">&quot;Install app&quot;</span> above, then come back
+        here.
+      </p>
+    );
   }
 
   if (!isSupported) {
