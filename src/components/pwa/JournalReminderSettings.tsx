@@ -5,6 +5,7 @@ import { Loader2, Save, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { getJournalReminder, saveJournalReminder, deleteJournalReminder } from "@/app/actions/journal-reminder";
 import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
+import { trackEvent } from "@/lib/analytics";
 
 const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
 const ALL_DAYS = [0, 1, 2, 3, 4, 5, 6];
@@ -43,6 +44,7 @@ export function JournalReminderSettings() {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       await saveJournalReminder({ time, timezone, days, enabled: true });
       setExists(true);
+      trackEvent("Journal Reminder Saved", { time, daysCount: days.length });
       toast.success("Reminder saved");
     } catch {
       toast.error("Couldn't save reminder");
