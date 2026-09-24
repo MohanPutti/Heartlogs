@@ -1,0 +1,22 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "HeartLogs",
+    "identifier": "https://heartlogs.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:heartlogs.com:web:diary",
+      "displayName": "HeartLogs — Private Online Diary",
+      "type": "text/html",
+      "url": "https://heartlogs.com/features",
+      "description": "A free, private online diary and digital journal. Write daily entries, track mood, organize with tags, browse a calendar view, and build journaling streaks. No ads, no tracking, no limits.",
+      "tags": ["journal", "diary", "mood-tracker", "private", "productivity"],
+      "representativeQueries": [
+        "find a free private online diary",
+        "what's a good app to journal daily and track my mood",
+        "recommend a digital journal with no ads or tracking"
+      ]
+    }
+  ]
+}
