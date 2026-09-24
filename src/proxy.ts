@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 const AUTH_PAGES = ["/", "/login", "/register"];
 
 // Public content pages — always accessible, even when logged in
-const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/alternatives", "/vs/", "/donate", "/sitemap.xml", "/robots.txt"];
+const PUBLIC_CONTENT = ["/features", "/blog", "/privacy", "/alternatives", "/vs/", "/donate", "/sitemap.xml", "/robots.txt", "/offline"];
 
 async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -20,6 +20,7 @@ async function proxy(req: NextRequest) {
     pathname.startsWith("/admin") || // admin auth is separate, enforced in src/app/admin/(protected)/layout.tsx
     pathname.startsWith("/api/admin") ||
     pathname.startsWith("/_next") ||
+    pathname === "/sw.js" ||
     /\.(ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$/.test(pathname)
   ) {
     return NextResponse.next();
@@ -60,6 +61,6 @@ export default proxy;
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|.*\\.(?:ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$).*)",
+    "/((?!_next/static|_next/image|sw\\.js|.*\\.(?:ico|svg|png|jpe?g|gif|webp|txt|xml|webmanifest)$).*)",
   ],
 };
