@@ -8,7 +8,6 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { PushNotificationManager } from "@/components/pwa/PushNotificationManager";
-import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
@@ -125,7 +124,6 @@ export default function SettingsPage() {
         <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Notifications</h2>
         <div className="rounded-2xl border p-5 space-y-4" style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}>
           <PushNotificationManager />
-          <InstallPrompt />
         </div>
       </section>
 

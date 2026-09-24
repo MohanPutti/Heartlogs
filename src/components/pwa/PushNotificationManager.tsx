@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Bell, BellOff, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { subscribeUser, unsubscribeUser, sendTestNotification } from "@/app/actions/push";
+import { subscribeUser, unsubscribeUser } from "@/app/actions/push";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -65,15 +65,6 @@ export function PushNotificationManager() {
     }
   }
 
-  async function handleTest() {
-    try {
-      await sendTestNotification();
-      toast.success("Test notification sent");
-    } catch {
-      toast.error("Couldn't send test notification");
-    }
-  }
-
   if (!isSupported) {
     return (
       <p className="text-xs text-[var(--text-muted)]">
@@ -91,14 +82,6 @@ export function PushNotificationManager() {
         </p>
       </div>
       <div className="flex items-center gap-2">
-        {subscription && (
-          <button
-            onClick={handleTest}
-            className="text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-          >
-            Send test
-          </button>
-        )}
         <button
           onClick={subscription ? unsubscribeFromPush : subscribeToPush}
           disabled={loading}
