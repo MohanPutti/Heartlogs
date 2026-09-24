@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { PushNotificationManager } from "@/components/pwa/PushNotificationManager";
+import { ReminderSettings } from "@/components/pwa/ReminderSettings";
 import { InstallSettings } from "@/components/pwa/InstallSettings";
 
 export default function SettingsPage() {
@@ -133,6 +134,9 @@ export default function SettingsPage() {
         <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Notifications</h2>
         <div className="rounded-2xl border p-5 space-y-4" style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}>
           <PushNotificationManager />
+          <div className="pt-4 border-t" style={{ borderColor: "var(--border)" }}>
+            <ReminderSettings />
+          </div>
         </div>
       </section>
 
