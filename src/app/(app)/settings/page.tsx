@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { PushNotificationManager } from "@/components/pwa/PushNotificationManager";
+import { InstallSettings } from "@/components/pwa/InstallSettings";
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
@@ -116,6 +117,14 @@ export default function SettingsPage() {
             </div>
             <ThemeToggle />
           </div>
+        </div>
+      </section>
+
+      {/* App */}
+      <section className="mb-8">
+        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">App</h2>
+        <div className="rounded-2xl border p-5" style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}>
+          <InstallSettings />
         </div>
       </section>
 
