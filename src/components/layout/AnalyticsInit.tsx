@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { initAmplitude, trackPageView, setUserId, identifyUser } from "@/lib/analytics";
+import { initAmplitude, trackPageView, trackEvent, setUserId, identifyUser } from "@/lib/analytics";
 
 export function AnalyticsInit() {
   const pathname = usePathname();
@@ -35,6 +35,24 @@ export function AnalyticsInit() {
     const pageName = pageMap[pathname] || (pathname.startsWith("/blog/") ? "Blog Post" : pathname.startsWith("/entry/") ? "Entry View" : pathname);
     trackPageView(pageName);
   }, [pathname]);
+
+  // Track PWA install state
+  useEffect(() => {
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+    if (isStandalone) {
+      identifyUser({ pwa_installed: true });
+      trackEvent("PWA Launched Standalone");
+    }
+
+    function handleAppInstalled() {
+      identifyUser({ pwa_installed: true });
+      trackEvent("PWA Installed");
+    }
+    window.addEventListener("appinstalled", handleAppInstalled);
+    return () => window.removeEventListener("appinstalled", handleAppInstalled);
+  }, []);
 
   // Track user ID changes (session loads after render) and sync user properties
   useEffect(() => {
