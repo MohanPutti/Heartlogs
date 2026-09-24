@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { Loader2, Save, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { getReminder, saveReminder, deleteReminder } from "@/app/actions/reminders";
+import { getJournalReminder, saveJournalReminder, deleteJournalReminder } from "@/app/actions/journal-reminder";
 import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
 
 const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
 const ALL_DAYS = [0, 1, 2, 3, 4, 5, 6];
 
-export function ReminderSettings() {
+export function JournalReminderSettings() {
   const { isSupported, subscription, loading: subLoading } = usePushSubscription();
   const [time, setTime] = useState("20:00");
   const [days, setDays] = useState<number[]>(ALL_DAYS);
@@ -19,7 +19,7 @@ export function ReminderSettings() {
 
   useEffect(() => {
     if (!subscription) return;
-    getReminder().then((reminder) => {
+    getJournalReminder().then((reminder) => {
       if (reminder) {
         setTime(reminder.time);
         setDays(reminder.days.split(",").map(Number));
@@ -41,7 +41,7 @@ export function ReminderSettings() {
     setSaving(true);
     try {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      await saveReminder({ time, timezone, days, enabled: true });
+      await saveJournalReminder({ time, timezone, days, enabled: true });
       setExists(true);
       toast.success("Reminder saved");
     } catch {
@@ -54,7 +54,7 @@ export function ReminderSettings() {
   async function handleRemove() {
     setSaving(true);
     try {
-      await deleteReminder();
+      await deleteJournalReminder();
       setExists(false);
       toast.success("Reminder removed");
     } catch {

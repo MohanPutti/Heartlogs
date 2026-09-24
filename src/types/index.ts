@@ -38,3 +38,16 @@ export interface UserType {
   email: string;
   image: string | null;
 }
+
+export type RepeatType = "none" | "daily" | "weekly" | "monthly" | "yearly";
+
+export interface ReminderType {
+  id: string;
+  title: string;
+  note: string | null;
+  date: string;
+  time: string;
+  timezone: string;
+  repeat: RepeatType;
+  enabled: boolean;
+}

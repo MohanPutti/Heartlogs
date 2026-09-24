@@ -25,7 +25,8 @@ model User {
   blogLikes    BlogLike[]
   blogComments BlogComment[]
   pushSubscriptions PushSubscription[]
-  reminder          Reminder?
+  journalReminder   JournalReminder?
+  reminders         Reminder[]
 }
 
 model Entry {
@@ -170,7 +171,8 @@ model PushSubscription {
   @@index([userId])
 }
 
-model Reminder {
+// The single daily "write today's entry" nudge, configured in Settings.
+model JournalReminder {
   id           String   @id @default(cuid())
   userId       String   @unique
   time         String // "HH:MM", 24h, local to `timezone`, rounded to 5-minute increments
@@ -182,6 +184,27 @@ model Reminder {
   updatedAt    DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// General-purpose, user-created reminders (birthdays, anniversaries, one-off
+// notes) shown in their own "Reminders" section, independent of journaling.
+model Reminder {
+  id           String   @id @default(cuid())
+  userId       String
+  title        String
+  note         String?  @db.Text
+  date         String // "YYYY-MM-DD", the anchor date, local to `timezone`
+  time         String // "HH:MM", 24h, local to `timezone`
+  timezone     String // IANA name, e.g. "Asia/Kolkata"
+  repeat       String   @default("none") // "none" | "daily" | "weekly" | "monthly" | "yearly"
+  enabled      Boolean  @default(true)
+  lastSentDate String? // "YYYY-MM-DD" in `timezone`, prevents double-sends
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Donation {

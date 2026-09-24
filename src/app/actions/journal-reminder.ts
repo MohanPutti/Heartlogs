@@ -12,14 +12,14 @@ function roundToNearest5(time: string) {
   return `${String(rh).padStart(2, "0")}:${String(rm).padStart(2, "0")}`;
 }
 
-export async function getReminder() {
+export async function getJournalReminder() {
   const session = await auth();
   if (!session?.user?.id) return null;
 
-  return prisma.reminder.findUnique({ where: { userId: session.user.id } });
+  return prisma.journalReminder.findUnique({ where: { userId: session.user.id } });
 }
 
-export async function saveReminder(input: { time: string; timezone: string; days: number[]; enabled: boolean }) {
+export async function saveJournalReminder(input: { time: string; timezone: string; days: number[]; enabled: boolean }) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
@@ -29,7 +29,7 @@ export async function saveReminder(input: { time: string; timezone: string; days
   const time = roundToNearest5(input.time);
   const days = [...new Set(input.days)].sort().join(",") || "0,1,2,3,4,5,6";
 
-  await prisma.reminder.upsert({
+  await prisma.journalReminder.upsert({
     where: { userId: session.user.id },
     update: { time, timezone: input.timezone, days, enabled: input.enabled },
     create: {
@@ -44,11 +44,11 @@ export async function saveReminder(input: { time: string; timezone: string; days
   return { success: true };
 }
 
-export async function deleteReminder() {
+export async function deleteJournalReminder() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
 
-  await prisma.reminder.deleteMany({ where: { userId: session.user.id } });
+  await prisma.journalReminder.deleteMany({ where: { userId: session.user.id } });
 
   return { success: true };
 }
