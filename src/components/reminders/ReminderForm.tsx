@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { ReminderType, RepeatType } from "@/types";
 import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { trackEvent } from "@/lib/analytics";
 
 const REPEAT_OPTIONS: { value: RepeatType; label: string }[] = [
   { value: "none", label: "Once" },
@@ -50,6 +51,7 @@ export function ReminderForm({ reminder }: Props) {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error();
+      if (!reminder) trackEvent("Reminder Created", { repeat });
       toast.success(reminder ? "Reminder updated" : "Reminder created");
       router.push("/reminders");
     } catch {

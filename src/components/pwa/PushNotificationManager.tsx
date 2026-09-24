@@ -5,6 +5,7 @@ import { Bell, BellOff, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { subscribeUser, unsubscribeUser } from "@/app/actions/push";
 import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
+import { trackEvent } from "@/lib/analytics";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -29,6 +30,7 @@ export function PushNotificationManager() {
       });
       await subscribeUser(JSON.parse(JSON.stringify(sub)));
       setSubscription(sub);
+      trackEvent("Push Notifications Enabled");
       toast.success("Notifications enabled");
     } catch {
       toast.error("Couldn't enable notifications");
