@@ -24,6 +24,7 @@ model User {
   sessions     Session[]
   blogLikes    BlogLike[]
   blogComments BlogComment[]
+  pushSubscriptions PushSubscription[]
 }
 
 model Entry {
@@ -153,6 +154,19 @@ model BlogComment {
 
   post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique @db.VarChar(500)
+  p256dh    String   @db.Text
+  auth      String   @db.Text
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Donation {

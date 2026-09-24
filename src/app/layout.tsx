@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
@@ -27,6 +27,12 @@ export const metadata: Metadata = {
     "HeartLogs is a free, private online diary and digital journal. Write daily entries, track your mood with our mood tracker, organize with tags, browse your story on a calendar, and build journaling streaks. Completely safe, no ads, no tracking, no limits.",
   metadataBase: new URL("https://heartlogs.com"),
   alternates: { canonical: "/" },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "HeartLogs",
+  },
   keywords: [
     "free online diary",
     "private digital diary",
@@ -70,6 +76,10 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#8b6f47",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

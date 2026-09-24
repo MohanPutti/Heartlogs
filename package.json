@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "send-journal-reminders": "tsx scripts/send-journal-reminders.ts"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.4",
@@ -40,6 +41,7 @@
     "react-dom": "19.2.4",
     "react-hot-toast": "^2.6.0",
     "tailwind-merge": "^3.5.0",
+    "web-push": "^3.6.7",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
@@ -48,6 +50,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "tailwindcss": "^4",
