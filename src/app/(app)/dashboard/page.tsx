@@ -9,6 +9,7 @@ import { PenLine, BookText } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
+import { AppLockNudge } from "@/components/app-lock/AppLockNudge";
 
 interface Stats {
   streak: number;
@@ -61,6 +62,8 @@ export default function DashboardPage() {
             : `You have ${stats?.totalEntries ?? 0} entries and ${(stats?.totalWords ?? 0).toLocaleString()} words written`}
         </p>
       </motion.div>
+
+      <AppLockNudge />
 
       {/* Stats row */}
       {!loading && stats && (
