@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { HeartPulse } from "lucide-react";
 
@@ -18,7 +19,9 @@ export default function LoginPage() {
           <p className="text-sm text-[var(--text-muted)]">Your private journal is waiting</p>
         </div>
 
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );

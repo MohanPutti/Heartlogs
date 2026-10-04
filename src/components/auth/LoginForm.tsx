@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const resetPasscode = searchParams.get("resetPasscode") === "1";
+  const destination = resetPasscode ? "/settings?resetPasscode=1" : "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -30,14 +33,14 @@ export function LoginForm() {
       setError("Incorrect email or password");
     } else {
       trackEvent("Logged In", { method: "credentials" });
-      router.push("/dashboard");
+      router.push(destination);
     }
   }
 
   async function handleGoogle() {
     setGoogleLoading(true);
     trackEvent("Logged In", { method: "google" });
-    await signIn("google", { callbackUrl: "/dashboard" });
+    await signIn("google", { callbackUrl: destination });
   }
 
   return (

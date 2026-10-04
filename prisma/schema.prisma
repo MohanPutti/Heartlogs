@@ -18,6 +18,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // App-lock passcode (quick-unlock PIN, separate from the account password)
+  passcodeHash           String?
+  passcodeFailedAttempts Int       @default(0)
+  passcodeLockedUntil    DateTime?
+
   entries      Entry[]
   tags         Tag[]
   accounts     Account[]
