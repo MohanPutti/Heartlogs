@@ -55,11 +55,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const dbUser = await prisma.user.findUnique({ where: { email: token.email } });
         if (dbUser) token.id = dbUser.id;
       }
+      // Only set on a fresh sign-in (user is only present then) — used to grant
+      // a short grace window after re-authenticating, e.g. to recover a
+      // forgotten app-lock passcode without knowing the old one.
+      if (user) token.loginAt = Date.now();
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = token.id as string;
+      }
+      if (session.user && token.loginAt) {
+        session.user.loginAt = token.loginAt as number;
       }
       return session;
     },

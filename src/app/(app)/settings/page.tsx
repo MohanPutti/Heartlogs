@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Loader2, Save, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -10,9 +11,33 @@ import Image from "next/image";
 import { PushNotificationManager } from "@/components/pwa/PushNotificationManager";
 import { JournalReminderSettings } from "@/components/pwa/JournalReminderSettings";
 import { InstallSettings } from "@/components/pwa/InstallSettings";
+import { AppLockSettings } from "@/components/app-lock/AppLockSettings";
 
 export default function SettingsPage() {
+  return (
+    <Suspense fallback={null}>
+      <SettingsPageInner />
+    </Suspense>
+  );
+}
+
+function SettingsPageInner() {
   const { data: session, update } = useSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const resetPasscodeHandled = useRef(false);
+
+  useEffect(() => {
+    if (searchParams.get("resetPasscode") !== "1" || resetPasscodeHandled.current) return;
+    resetPasscodeHandled.current = true;
+    fetch("/api/user/passcode", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) toast.success("Passcode removed — set a new one below");
+      })
+      .finally(() => router.replace("/settings"));
+  }, [searchParams, router]);
+
   const [name, setName] = useState(session?.user?.name ?? "");
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
@@ -140,10 +165,12 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      {/* Password */}
+      {/* Security */}
       <section className="mb-8">
         <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Security</h2>
-        <div className="rounded-2xl border p-5" style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}>
+        <div className="rounded-2xl border p-5 space-y-4" style={{ background: "var(--card-bg)", borderColor: "var(--border)" }}>
+          <AppLockSettings />
+          <div className="pt-4 border-t" style={{ borderColor: "var(--border)" }} />
           <form onSubmit={handleChangePassword} className="space-y-3">
             <div>
               <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1.5">Current password</label>
