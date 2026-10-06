@@ -188,6 +188,22 @@ export default function DonateClient() {
             >
               {loading ? "Starting…" : `Donate ₹${effectiveAmount || 0}${frequency === "recurring" ? "/month" : ""}`}
             </button>
+
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+              <span className="text-xs" style={{ color: "var(--text-muted)" }}>or</span>
+              <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+            </div>
+
+            <a
+              href="https://www.paypal.com/ncp/payment/UCX36SYMZZXWQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full py-3 rounded-xl font-medium text-sm text-center border transition-colors hover:bg-[var(--bg-elevated)]"
+              style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}
+            >
+              International? Donate via PayPal
+            </a>
           </div>
         )}
 
