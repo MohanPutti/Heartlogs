@@ -4,6 +4,15 @@ import { prisma } from "@/lib/prisma";
 
 const REPEATS = new Set(["none", "daily", "weekly", "monthly", "yearly"]);
 
+function localDateKey(date: Date, timezone: string) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -13,7 +22,13 @@ export async function GET() {
     orderBy: [{ time: "asc" }],
   });
 
-  return NextResponse.json({ reminders });
+  // One-time reminders can never fire again once their date has passed —
+  // hide them from the list. Recurring ones (daily/weekly/monthly/yearly)
+  // always have a future occurrence, so they always stay visible.
+  const now = new Date();
+  const visible = reminders.filter((r) => r.repeat !== "none" || r.date >= localDateKey(now, r.timezone));
+
+  return NextResponse.json({ reminders: visible });
 }
 
 export async function POST(req: NextRequest) {
