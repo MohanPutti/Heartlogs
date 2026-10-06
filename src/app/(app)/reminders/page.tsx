@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, Loader2, BellRing } from "lucide-react";
+import toast from "react-hot-toast";
 import { ReminderType } from "@/types";
 import { ReminderCard } from "@/components/reminders/ReminderCard";
+import { ReminderPrereqBanner } from "@/components/reminders/ReminderPrereqBanner";
+import { usePushSubscription } from "@/lib/hooks/usePushSubscription";
 
 export default function RemindersPage() {
+  const router = useRouter();
+  const { subscription, loading: subLoading, needsInstallOnIOS } = usePushSubscription();
   const [reminders, setReminders] = useState<ReminderType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,12 +25,26 @@ export default function RemindersPage() {
       });
   }, []);
 
+  const canAddReminders = !subLoading && !!subscription;
+
+  function handleNewClick(e: React.MouseEvent) {
+    if (canAddReminders) return;
+    e.preventDefault();
+    toast.error(
+      needsInstallOnIOS
+        ? "Install HeartLogs and enable notifications in Settings first"
+        : "Enable notifications in Settings first"
+    );
+    router.push("/settings");
+  }
+
   return (
     <div className="max-w-lg mx-auto px-4 md:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-display text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Reminders</h1>
         <Link
           href="/reminders/new"
+          onClick={handleNewClick}
           className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium text-white"
           style={{ background: "var(--accent)" }}
         >
@@ -32,6 +52,8 @@ export default function RemindersPage() {
           New
         </Link>
       </div>
+
+      {!subLoading && !subscription && <ReminderPrereqBanner needsInstallOnIOS={needsInstallOnIOS} />}
 
       {loading ? (
         <div className="flex justify-center py-16">
