@@ -6,6 +6,7 @@ import Script from "next/script";
 import toast from "react-hot-toast";
 import { HeartPulse, Heart, ShieldCheck, ServerCog, Ban } from "lucide-react";
 import { DonateFooterLink } from "@/components/DonateLink";
+import { PayPalDonateButton } from "@/components/donate/PayPalDonateButton";
 
 const PRESET_AMOUNTS = [99, 199, 499, 999];
 
@@ -188,6 +189,14 @@ export default function DonateClient() {
             >
               {loading ? "Starting…" : `Donate ₹${effectiveAmount || 0}${frequency === "recurring" ? "/month" : ""}`}
             </button>
+
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+              <span className="text-xs" style={{ color: "var(--text-muted)" }}>or</span>
+              <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
+            </div>
+
+            <PayPalDonateButton />
           </div>
         )}
 
