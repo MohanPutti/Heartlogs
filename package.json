@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.4",
+    "@amplitude/plugin-session-replay-browser": "^1.35.5",
     "@auth/prisma-adapter": "^2.11.1",
     "@prisma/client": "^6.7.0",
     "@tiptap/extension-character-count": "^3.22.3",
