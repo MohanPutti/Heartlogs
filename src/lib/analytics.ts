@@ -1,5 +1,6 @@
 import * as amplitude from "@amplitude/analytics-browser";
 import { Identify } from "@amplitude/analytics-browser";
+import { sessionReplayPlugin } from "@amplitude/plugin-session-replay-browser";
 
 const API_KEY = process.env.NEXT_PUBLIC_AMPLITUDE_KEY;
 
@@ -7,6 +8,7 @@ let initialized = false;
 
 export function initAmplitude(userId?: string) {
   if (initialized || !API_KEY || typeof window === "undefined") return;
+  amplitude.add(sessionReplayPlugin());
   amplitude.init(API_KEY, userId, {
     defaultTracking: {
       sessions: true,
