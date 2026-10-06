@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "send-reminders": "tsx scripts/send-reminders.ts"
+    "send-reminders": "tsx scripts/send-reminders.ts",
+    "send-daily-diary-reminder": "tsx scripts/send-daily-diary-reminder.ts"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.4",
