@@ -6,6 +6,7 @@ import Script from "next/script";
 import toast from "react-hot-toast";
 import { HeartPulse, Heart, ShieldCheck, ServerCog, Ban } from "lucide-react";
 import { DonateFooterLink } from "@/components/DonateLink";
+import { PayPalDonateButton } from "@/components/donate/PayPalDonateButton";
 
 const PRESET_AMOUNTS = [99, 199, 499, 999];
 
@@ -195,15 +196,7 @@ export default function DonateClient() {
               <div className="flex-1 h-px" style={{ background: "var(--border)" }} />
             </div>
 
-            <a
-              href="https://www.paypal.com/ncp/payment/UCX36SYMZZXWQ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full py-3 rounded-xl font-medium text-sm text-center border transition-colors hover:bg-[var(--bg-elevated)]"
-              style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}
-            >
-              International? Donate via PayPal
-            </a>
+            <PayPalDonateButton />
           </div>
         )}
 
